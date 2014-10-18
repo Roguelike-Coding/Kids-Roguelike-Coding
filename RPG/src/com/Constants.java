@@ -43,6 +43,7 @@ public class Constants {
 	public RenderType CASTLE_PLAINS_YELLOW=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/castleYellowBack",false,false,null,0,false);
 	public RenderType ROAD_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/roadGrassBack",true,true,ROAD,2,false);
 	
+	public Entity AUX = new Entity(0, 0, 0, 0, 0, null, null, "/com/resources/entity/SoldierR.gif");
 	public Terrain T_PLAINS = new Terrain(10,10,PLAINS.getThis(),null/*For the moment*/,"Plains");
 	public Terrain T_BEACH = new Terrain(10,15,BEACH.getThis(),null/*For the moment*/,"Sand");
 	public Terrain T_WATER_PLAINS = new Terrain(0,30,WATER_PLAINS.getThis(),null/*For the moment*/,"Water");

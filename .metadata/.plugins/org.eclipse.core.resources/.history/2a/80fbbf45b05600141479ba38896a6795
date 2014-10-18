@@ -1,0 +1,47 @@
+package com;
+
+import javax.swing.JLayeredPane;
+
+public class EntityMoveToolkit {
+	public static EntityLabel moveUp(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX(), entity.getY()-1);
+		return entity;
+		
+	}
+	public static EntityLabel moveDown(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX(), entity.getY()+1);
+		return null;
+		
+	}
+	public static EntityLabel moveLeft(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX()-1, entity.getY());
+		return null;
+	
+	}
+	public static EntityLabel moveRight(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX()+1, entity.getY());
+		return null;
+	
+	}
+	public static EntityLabel moveUpRight(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX()+1, entity.getY()-1);
+		return null;
+	
+	}
+	public static EntityLabel moveUpLeft(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX()-1, entity.getY()-1);
+		return null;
+	
+	}
+	public static EntityLabel moveDownRight(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX()+1, entity.getY()+1);
+		return null;
+	
+	}
+	public static EntityLabel moveDownLeft(EntityLabel entity, JLayeredPane pane){
+		entity.setLocation(entity.getX()-1, entity.getY()+1);
+		return null;
+	
+	}
+	
+}

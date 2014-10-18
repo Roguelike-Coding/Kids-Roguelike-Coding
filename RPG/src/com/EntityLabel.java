@@ -13,7 +13,7 @@ public class EntityLabel extends JLabel {
 	public EntityLabel(Entity entity){
 		setEntity(entity);
 		if(entity!=null)
-		setIcon(new ImageIcon());
+		setIcon(new ImageIcon(entity.getFrames()[0]));
 	}
 
 	public Entity getEntity() {

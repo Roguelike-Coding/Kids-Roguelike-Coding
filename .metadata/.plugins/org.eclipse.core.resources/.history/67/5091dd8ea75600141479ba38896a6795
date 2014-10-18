@@ -1,0 +1,47 @@
+package com;
+
+import javax.swing.JLayeredPane;
+
+public class EntityMoveToolkit {
+	public Map moveUp(Map map,EntityLabel entity, JLayeredPane pane){
+		
+		return null;
+		
+	}
+	public Map moveDown(Map map,EntityLabel entity, JLayeredPane pane){
+		
+		return null;
+		
+	}
+	public Map moveLeft(Map map,EntityLabel entity, JLayeredPane pane){
+	
+	return null;
+	
+	}
+	public Map moveRight(Map map,EntityLabel entity, JLayeredPane pane){
+	
+	return null;
+	
+	}
+	public Map moveUpRight(Map map,EntityLabel entity, JLayeredPane pane){
+	
+	return null;
+	
+	}
+	public Map moveUpLeft(Map map,EntityLabel entity, JLayeredPane pane){
+	
+	return null;
+	
+	}
+	public Map moveDownRight(Map map,EntityLabel entity, JLayeredPane pane){
+	
+	return null;
+	
+	}
+	public Map moveDownLeft(Map map,EntityLabel entity, JLayeredPane pane){
+	
+	return null;
+	
+	}
+	
+}

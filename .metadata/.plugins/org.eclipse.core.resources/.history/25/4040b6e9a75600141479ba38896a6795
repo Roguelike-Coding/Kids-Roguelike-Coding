@@ -1,0 +1,73 @@
+package com;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+public class Constants {
+	public String R="Red";
+	public String B="Blue";
+	public String G="Green";
+	public String Y="Yellow";
+	
+	public BufferedImage GRASS_BORDER_NORTH=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderNorth.png"));
+	public BufferedImage GRASS_BORDER_SOUTH=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderSouth.png"));
+	public BufferedImage GRASS_BORDER_WEST=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderWest.png"));
+	public BufferedImage GRASS_BORDER_EAST=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderEast.png"));
+	public BufferedImage SAND_BORDER_NORTH=afterException(Interpreter.class.getResource("/com/resources/terrain/sandBorderNorth.png"));
+	public BufferedImage SAND_BORDER_SOUTH=afterException(Interpreter.class.getResource("/com/resources/terrain/sandBorderSouth.png"));
+	public BufferedImage SAND_BORDER_WEST=afterException(Interpreter.class.getResource("/com/resources/terrain/sandBorderWest.png"));
+	public BufferedImage SAND_BORDER_EAST=afterException(Interpreter.class.getResource("/com/resources/terrain/sandBorderEast.png"));
+	
+	public ConnectionType GRASS= new ConnectionType(new BufferedImage[]{null,GRASS_BORDER_SOUTH,GRASS_BORDER_WEST,GRASS_BORDER_NORTH,GRASS_BORDER_EAST},new String[]{"Plains","Forest","Mountains","House","Road","Castle"});
+	public ConnectionType SAND= new ConnectionType(new BufferedImage[]{null,SAND_BORDER_SOUTH,SAND_BORDER_WEST,SAND_BORDER_NORTH,SAND_BORDER_EAST},new String[]{"Sand"});
+	public ConnectionType ROAD= new ConnectionType(null,new String[]{"Road"});
+	public ConnectionType GRASS_SAND= new ConnectionType(null,new ConnectionType[]{SAND,GRASS});
+	
+	public RenderType PLAINS=new RenderType("/com/resources/terrain/plainsTile",false,null,0,false);
+	public RenderType BEACH=new RenderType("/com/resources/terrain/sandTile",true,GRASS,1,false);
+	public RenderType WATER_PLAINS=new RenderType("/com/resources/terrain/waterTile",true,GRASS_SAND,1,true);
+	public RenderType FOREST_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/forestBack",false,false,null,0,false);
+	public RenderType MOUNTAINS_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/mountainsBack",false,false,null,0,false);
+	public RenderType HOUSE_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/houseBack",false,false,null,0,false);
+	public RenderType HOUSE_PLAINS_BLUE=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/houseBlueBack",false,false,null,0,false);
+	public RenderType HOUSE_PLAINS_RED=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/houseRedBack",false,false,null,0,false);
+	public RenderType HOUSE_PLAINS_GREEN=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/houseGreenBack",false,false,null,0,false);
+	public RenderType HOUSE_PLAINS_YELLOW=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/houseYellowBack",false,false,null,0,false);
+	public RenderType CASTLE_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/castleBack",false,false,null,0,false);
+	public RenderType CASTLE_PLAINS_BLUE=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/castleBlueBack",false,false,null,0,false);
+	public RenderType CASTLE_PLAINS_RED=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/castleRedBack",false,false,null,0,false);
+	public RenderType CASTLE_PLAINS_GREEN=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/castleGreenBack",false,false,null,0,false);
+	public RenderType CASTLE_PLAINS_YELLOW=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/castleYellowBack",false,false,null,0,false);
+	public RenderType ROAD_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/roadGrassBack",true,true,ROAD,2,false);
+	
+	public Terrain T_PLAINS = new Terrain(10,10,PLAINS.getThis(),null/*For the moment*/,"Plains");
+	public Terrain T_BEACH = new Terrain(10,15,BEACH.getThis(),null/*For the moment*/,"Sand");
+	public Terrain T_WATER_PLAINS = new Terrain(0,30,WATER_PLAINS.getThis(),null/*For the moment*/,"Water");
+	public Terrain T_FOREST_PLAINS = new Terrain(20,20,FOREST_PLAINS.getThis(),null,"Forest");
+	public Terrain T_MOUNTAINS_PLAINS = new Terrain(30,30,MOUNTAINS_PLAINS.getThis(),null,"Mountains");
+	public Terrain T_HOUSE_PLAINS= new Terrain(30,10,HOUSE_PLAINS.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_BLUE= new Terrain(30,10,HOUSE_PLAINS_BLUE.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_RED= new Terrain(30,10,HOUSE_PLAINS_RED.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_GREEN= new Terrain(30,10,HOUSE_PLAINS_GREEN.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_YELLOW= new Terrain(30,10,HOUSE_PLAINS_YELLOW.getThis(),null,"House");
+	public Terrain T_CASTLE_PLAINS= new Terrain(30,10,CASTLE_PLAINS.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_BLUE= new Terrain(30,10,CASTLE_PLAINS_BLUE.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_RED= new Terrain(30,10,CASTLE_PLAINS_RED.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_GREEN= new Terrain(30,10,CASTLE_PLAINS_GREEN.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_YELLOW= new Terrain(30,10,CASTLE_PLAINS_YELLOW.getThis(),null,"Castle");
+	public Terrain T_ROAD_PLAINS = new Terrain(10,10,ROAD_PLAINS.getThis(),null/*For the moment*/,"Road");
+
+	public static BufferedImage afterException(URL url){
+		BufferedImage aux = null;
+		try {
+			aux = ImageIO.read(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return aux;
+	}
+}

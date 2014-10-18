@@ -3,7 +3,7 @@ package com;
 public class Map {
 	public Terrain[][] terrain;
 	public Entity[][] troops;
-	
+	public int[][] position;
 	
 	public Entity[][] getTroops() {
 		return troops;

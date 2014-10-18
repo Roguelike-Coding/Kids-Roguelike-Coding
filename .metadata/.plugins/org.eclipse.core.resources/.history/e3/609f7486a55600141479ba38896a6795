@@ -1,0 +1,45 @@
+package com;
+
+public class EntityMoveToolkit {
+	public Map moveUp(){
+		
+		return null;
+		
+	}
+	public Map moveDown(){
+		
+		return null;
+		
+	}
+	public Map moveLeft(){
+	
+	return null;
+	
+	}
+	public Map moveRight(){
+	
+	return null;
+	
+	}
+	public Map moveUpRight(){
+	
+	return null;
+	
+	}
+	public Map moveUpLeft(){
+	
+	return null;
+	
+	}
+	public Map moveDownRight(){
+	
+	return null;
+	
+	}
+	public Map moveDownLeft(){
+	
+	return null;
+	
+	}
+	
+}

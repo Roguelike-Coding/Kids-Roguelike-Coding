@@ -2,19 +2,30 @@ package com;
 
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.KeyStroke;
 
 public class Interpreter implements Runnable{
 	/**
 	 * 
 	 */
-	static IsoTile[][] map;
+	boolean W=false;
+	boolean D=false;
+	boolean A=false;
+	boolean S=false;
+	static IsoTile[][] tiles;
 	static EntityLabel[][] troops;
-	static Map mapCode;
+	static Map map;
 	private static boolean translated=false;
 	public JLayeredPane pane;
 	Constants constant = new Constants();
@@ -28,50 +39,78 @@ public class Interpreter implements Runnable{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			for(int i=0;i<map.length;i++){
-				for(int j=0;j<map[0].length;j++){
-					if(map[i][j].getTileLabel().getImgs().length>1){
-					if(map[i][j].getTileLabel().getFrame()<map[i][j].getTileLabel().getImgs().length-1){
-						map[i][j].getTileLabel().setFrame(map[i][j].getTileLabel().getFrame()+1);
+			for(int i=0;i<tiles.length;i++){
+				for(int j=0;j<tiles[0].length;j++){
+					if(tiles[i][j].getTileLabel().getImgs().length>1){
+					if(tiles[i][j].getTileLabel().getFrame()<tiles[i][j].getTileLabel().getImgs().length-1){
+						tiles[i][j].getTileLabel().setFrame(tiles[i][j].getTileLabel().getFrame()+1);
 					}else{
-						map[i][j].getTileLabel().setFrame(0);
+						tiles[i][j].getTileLabel().setFrame(0);
 					}
-					map[i][j].getTileLabel().setImg(map[i][j].getTileLabel().getImgs()[map[i][j].getTileLabel().getFrame()]);
+					tiles[i][j].getTileLabel().setImg(tiles[i][j].getTileLabel().getImgs()[tiles[i][j].getTileLabel().getFrame()]);
 					}
 			}
 		}
 		}}
 	}
-	
+	public class gameLoop implements Runnable{
+
+		@Override
+		public void run() {
+			while (true) {
+			try {
+				Thread.sleep(16);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if(W){
+				troops[2][2]=EntityMoveToolkit.moveUp(troops[2][2], pane);
+			}
+			if(D){
+				troops[2][2]=EntityMoveToolkit.moveRight(troops[2][2], pane);
+			}
+			if(S){
+				troops[2][2]=EntityMoveToolkit.moveDown(troops[2][2], pane);
+			}
+			if(A){
+				troops[2][2]=EntityMoveToolkit.moveLeft(troops[2][2], pane);
+			}
+			/*
+			for(int i=0;i<map.position.length;i++){
+				for(int j=0;j<map.position[0].length;i++){
+					if(map.terrain[i][j])
+				}
+			}*/
+		}}
+	}
 	public IsoTile[][] translateMapTerrain(){
 		
-		IsoTile[][] output = new IsoTile[mapCode.getHeight()][mapCode.getWidth()];
-		for(int i=0;i<mapCode.getHeight();i++){
-			for(int j=0;j<mapCode.getWidth();j++){
+		IsoTile[][] output = new IsoTile[map.getHeight()][map.getWidth()];
+		for(int i=0;i<map.getHeight();i++){
+			for(int j=0;j<map.getWidth();j++){
 				if(translated){
-				pane.remove(map[i][j].getBackLabel());
-				pane.remove(map[i][j].getFrontLabel());
-				pane.remove(map[i][j].getTileLabel());
+				pane.remove(tiles[i][j].getBackLabel());
+				pane.remove(tiles[i][j].getFrontLabel());
+				pane.remove(tiles[i][j].getTileLabel());
 				}
-				output[i][j]=new IsoTile(mapCode.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i));
+				output[i][j]=new IsoTile(map.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i));
 			}
 		}
 		return output;
 	}
 	public EntityLabel[][] translateMapTroops(){
 		
-		EntityLabel[][] output = new EntityLabel[mapCode.getHeight()][mapCode.getWidth()];
-		for(int i=0;i<mapCode.getHeight();i++){
-			for(int j=0;j<mapCode.getWidth();j++){
+		EntityLabel[][] output = new EntityLabel[map.getHeight()][map.getWidth()];
+		for(int i=0;i<map.getHeight();i++){
+			for(int j=0;j<map.getWidth();j++){
 				output[i][j]=new EntityLabel(null);
-				if(mapCode.getTroops()[i][j]!=null){
-					output[i][j]=new EntityLabel(mapCode.getTroops()[i][j]);
+				if(map.getTroops()[i][j]!=null){
+					output[i][j]=new EntityLabel(map.getTroops()[i][j]);
 				if(translated){
 				pane.remove(troops[i][j]);
 				}
 				
 				output[i][j].setVisible(true);
-				output[i][j].setIcon(new ImageIcon(Interpreter.class.getResource("/com/resources/entity/"+mapCode.getTroops()[i][j].getName()+".gif")));
 				output[i][j].setSize(64, 64);}
 			}
 		}
@@ -79,18 +118,18 @@ public class Interpreter implements Runnable{
 		return output;
 	}
 	public void reCalculate(){
-		for(int i=0;i<mapCode.getTerrain().length;i++){
-			for(int j=0;j<mapCode.getTerrain()[0].length;j++){
-				if(mapCode.getTerrain()[i][j].getRenderType().isConnected()){
-					RenderType auxiliar = mapCode.getTerrain()[i][j].getRenderType().getThis();
-					if(mapCode.getTerrain()[i][j].getRenderType().getLayer()==1){
-						drawConected(i,j,mapCode.getTerrain()[i][j].renderType.getThis().getConnections());
+		for(int i=0;i<map.getTerrain().length;i++){
+			for(int j=0;j<map.getTerrain()[0].length;j++){
+				if(map.getTerrain()[i][j].getRenderType().isConnected()){
+					RenderType auxiliar = map.getTerrain()[i][j].getRenderType().getThis();
+					if(map.getTerrain()[i][j].getRenderType().getLayer()==1){
+						drawConected(i,j,map.getTerrain()[i][j].renderType.getThis().getConnections());
 					}
-					if(mapCode.getTerrain()[i][j].getRenderType().getLayer()==2){
-						auxiliar.setBackLayer(RenderType.convertTo45Degree(RenderType.afterException(Interpreter.class.getResource(mapCode.getTerrain()[i][j].renderType.getBackPath()+drawBasicConected(i,j,mapCode.getTerrain()[i][j].renderType.getConnections())+".png")),64)[0]);
-						mapCode.terrain[i][j].setRenderType(auxiliar);
+					if(map.getTerrain()[i][j].getRenderType().getLayer()==2){
+						auxiliar.setBackLayer(RenderType.convertTo45Degree(RenderType.afterException(Interpreter.class.getResource(map.getTerrain()[i][j].renderType.getBackPath()+drawBasicConected(i,j,map.getTerrain()[i][j].renderType.getConnections())+".png")),64)[0]);
+						map.terrain[i][j].setRenderType(auxiliar);
 					}
-					if(mapCode.getTerrain()[i][j].getRenderType().getLayer()==3){
+					if(map.getTerrain()[i][j].getRenderType().getLayer()==3){
 	
 					}
 					
@@ -98,7 +137,7 @@ public class Interpreter implements Runnable{
 				}
 			}
 		}
-		map=translateMapTerrain();
+		tiles=translateMapTerrain();
 		troops=translateMapTroops();
 	}
 	public void reRender(){
@@ -106,21 +145,21 @@ public class Interpreter implements Runnable{
 		showMap();
 	}
 	public void showMapFirst(){
-		map=translateMapTerrain();
+		tiles=translateMapTerrain();
 		troops=translateMapTroops();
 		int x=0;
-		for(int i=0;i<map.length;i++){
-			for(int j=0;j<map[0].length;j++){
-				pane.add(map[i][j].getTileLabel(),-1,x);
+		for(int i=0;i<tiles.length;i++){
+			for(int j=0;j<tiles[0].length;j++){
+				pane.add(tiles[i][j].getTileLabel(),-1,x);
 				pane.add(troops[i][j],0,x);
-				pane.add(map[i][j].getFrontLabel(),2,x);
+				pane.add(tiles[i][j].getFrontLabel(),2,x);
 				x++;
-				pane.add(map[i][j].getBackLabel(),0,x);
+				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
 				troops[i][j].setLocation(400+36+j-126/2*i+126/2*j,400+45-63/2*j-63/2*i);
-				map[i][j].setAllVisible(true);
-				map[i][j].setAllBounds(400-126/2*i+126/2*j,400-63/2*j-63/2*i);	
+				tiles[i][j].setAllVisible(true);
+				tiles[i][j].setAllBounds(400-126/2*i+126/2*j,400-63/2*j-63/2*i);	
 				
 			}
 		}
@@ -129,18 +168,20 @@ public class Interpreter implements Runnable{
 	}
 	public void showMap(){
 		int x=0;
-		for(int i=0;i<map.length;i++){
-			for(int j=0;j<map[0].length;j++){
-				pane.add(map[i][j].getTileLabel(),-1,x);
+		map.position=new int[map.terrain.length][map.terrain[0].length];
+		for(int i=0;i<tiles.length;i++){
+			for(int j=0;j<tiles[0].length;j++){
+				pane.add(tiles[i][j].getTileLabel(),-1,x);
 				pane.add(troops[i][j],0,x);
-				pane.add(map[i][j].getFrontLabel(),2,x);
+				pane.add(tiles[i][j].getFrontLabel(),2,x);
 				x++;
-				pane.add(map[i][j].getBackLabel(),0,x);
+				map.position[i][j]=x;
+				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
 				troops[i][j].setLocation(400+36+j-124/2*i+124/2*j,400+45-62/2*j-62/2*i);
-				map[i][j].setAllVisible(true);
-				map[i][j].setAllBounds(400-124/2*i+124/2*j,400-62/2*j-62/2*i);	
+				tiles[i][j].setAllVisible(true);
+				tiles[i][j].setAllBounds(400-124/2*i+124/2*j,400-62/2*j-62/2*i);	
 			}
 		}
 	}
@@ -152,7 +193,7 @@ public class Interpreter implements Runnable{
 		if(!n){
 			try {
 				
-			if (mapCode.getTerrain()[i][j + 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i][j + 1].getName().equals(connectionType.getTerrainTypes()[k])) {
 				term+="N";
 				
 				n=true;
@@ -165,7 +206,7 @@ public class Interpreter implements Runnable{
 		// East
 		if(!e){
 		try {
-			if (mapCode.getTerrain()[i-1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i-1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
 				term+="E";
 				e=true;
 			}
@@ -177,7 +218,7 @@ public class Interpreter implements Runnable{
 		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
 		if(!s){
 		try {
-			if (mapCode.getTerrain()[i][j - 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i][j - 1].getName().equals(connectionType.getTerrainTypes()[k])) {
 				term+="S";
 				s=true;
 			}
@@ -189,7 +230,7 @@ public class Interpreter implements Runnable{
 		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
 		if(!v){
 		try {
-			if (mapCode.getTerrain()[i+1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i+1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
 				term+="V";
 				v=true;
 			}
@@ -208,7 +249,7 @@ public class Interpreter implements Runnable{
 				if(!n){
 					try {
 						
-					if (mapCode.getTerrain()[i][j + 1].getName().equals(aux.getTerrainTypes()[k])) {
+					if (map.getTerrain()[i][j + 1].getName().equals(aux.getTerrainTypes()[k])) {
 						term+="N";
 						
 						n=true;
@@ -224,7 +265,7 @@ public class Interpreter implements Runnable{
 				// East
 				if(!e){
 				try {
-					if (mapCode.getTerrain()[i-1][j].getName().equals(aux.getTerrainTypes()[k])) {
+					if (map.getTerrain()[i-1][j].getName().equals(aux.getTerrainTypes()[k])) {
 						term+="E";
 						e=true;
 					}
@@ -239,7 +280,7 @@ public class Interpreter implements Runnable{
 				for(int k=0;k<aux.getTerrainTypes().length;k++){
 				if(!s){
 				try {
-					if (mapCode.getTerrain()[i][j - 1].getName().equals(aux.getTerrainTypes()[k])) {
+					if (map.getTerrain()[i][j - 1].getName().equals(aux.getTerrainTypes()[k])) {
 						term+="S";
 						s=true;
 					}
@@ -254,7 +295,7 @@ public class Interpreter implements Runnable{
 				for(int k=0;k<aux.getTerrainTypes().length;k++){
 				if(!v){
 				try {
-					if (mapCode.getTerrain()[i+1][j].getName().equals(aux.getTerrainTypes()[k])) {
+					if (map.getTerrain()[i+1][j].getName().equals(aux.getTerrainTypes()[k])) {
 						term+="V";
 						v=true;
 					}
@@ -270,14 +311,14 @@ public class Interpreter implements Runnable{
 	}
 	public void drawConected(int i,int j,ConnectionType connectionType){
 		boolean n=false,e=false,s=false,v=false;
-		RenderType aux=mapCode.getTerrain()[i][j].renderType.getThis();
+		RenderType aux=map.getTerrain()[i][j].renderType.getThis();
 		if(connectionType.getType()==1){
 		
 		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
 		if(!n){
 			try {
 				
-				if (mapCode.getTerrain()[i][j + 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+				if (map.getTerrain()[i][j + 1].getName().equals(connectionType.getTerrainTypes()[k])) {
 					aux.mergeTwoImages(connectionType.getConectionType(), 1);
 					n=true;
 				}
@@ -288,7 +329,7 @@ public class Interpreter implements Runnable{
 		// East
 		if(!e){
 		try {
-			if (mapCode.getTerrain()[i-1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i-1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
 				aux.mergeTwoImages(connectionType.getConectionType(), 2);
 				e=true;
 			}
@@ -298,7 +339,7 @@ public class Interpreter implements Runnable{
 		}}
 		if(!s){
 		try {
-			if (mapCode.getTerrain()[i][j - 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i][j - 1].getName().equals(connectionType.getTerrainTypes()[k])) {
 				aux.mergeTwoImages(connectionType.getConectionType(), 3);
 				s=true;
 			}
@@ -308,7 +349,7 @@ public class Interpreter implements Runnable{
 		}}
 		if(!v){
 		try {
-			if (mapCode.getTerrain()[i+1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+			if (map.getTerrain()[i+1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
 				
 				aux.mergeTwoImages(connectionType.getConectionType(), 4);
 				v=true;
@@ -326,7 +367,7 @@ public class Interpreter implements Runnable{
 				for(int k=0;k<aux2.getTerrainTypes().length;k++){
 				if(!n){
 					try {
-						if (mapCode.getTerrain()[i][j + 1].getName().equals(aux2.getTerrainTypes()[k])) {
+						if (map.getTerrain()[i][j + 1].getName().equals(aux2.getTerrainTypes()[k])) {
 							aux.mergeTwoImages(aux2.getConectionType(), 1);
 							n=true;
 						}
@@ -336,7 +377,7 @@ public class Interpreter implements Runnable{
 				// East
 				if(!e){
 				try {
-					if (mapCode.getTerrain()[i-1][j].getName().equals(aux2.getTerrainTypes()[k])) {
+					if (map.getTerrain()[i-1][j].getName().equals(aux2.getTerrainTypes()[k])) {
 						aux.mergeTwoImages(aux2.getConectionType(), 2);
 						e=true;
 					}
@@ -346,7 +387,7 @@ public class Interpreter implements Runnable{
 				}}
 				if(!s){
 					try {
-						if (mapCode.getTerrain()[i][j - 1].getName().equals(aux2.getTerrainTypes()[k])) {
+						if (map.getTerrain()[i][j - 1].getName().equals(aux2.getTerrainTypes()[k])) {
 							aux.mergeTwoImages(aux2.getConectionType(), 3);
 							s=true;
 							
@@ -357,7 +398,7 @@ public class Interpreter implements Runnable{
 					}}
 				if(!v){
 					try {
-						if (mapCode.getTerrain()[i+1][j].getName().equals(aux2.getTerrainTypes()[k])) {
+						if (map.getTerrain()[i+1][j].getName().equals(aux2.getTerrainTypes()[k])) {
 							aux.mergeTwoImages(aux2.getConectionType(), 4);
 							v=true;
 							
@@ -369,7 +410,7 @@ public class Interpreter implements Runnable{
 				} 
 			}
 		}
-		mapCode.getTerrain()[i][j].renderType=aux;
+		map.getTerrain()[i][j].renderType=aux;
 	}
 	public void run() {
 		JFrame frame=new JFrame();
@@ -384,9 +425,9 @@ public class Interpreter implements Runnable{
 		pane.setLocation(0,0);
 		pane.setOpaque(true);
 		pane.setBackground(Color.black);
-		mapCode=new Map(new Terrain[][]{
-				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_BEACH.getThis(),constant.T_ROAD_PLAINS.getThis()},
-				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_ROAD_PLAINS.getThis()},
+		map=new Map(new Terrain[][]{
+				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis()},
+				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_ROAD_PLAINS.getThis()},
 				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_FOREST_PLAINS.getThis()},
 				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
 				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()}
@@ -394,15 +435,93 @@ public class Interpreter implements Runnable{
 		new Entity[][]{
 				{null,null,null,null,null,null},
 				{null,null,null,null,null,null},
-				{null,null,null,null,null,null},
+				{null,null,constant.AUX,null,null,null},
 				{null,null,null,null,null,null},
 				{null,null,null,null,null,null}
 		}
 		);
+		
 		showMapFirst();
 		Thread gifThread ;
 		gifLoop glp = this.new gifLoop();
 		gifThread = new Thread(glp);
 		gifThread.start();
+		Thread gifThread1 ;
+		gameLoop glp1 = this.new gameLoop();
+		gifThread1 = new Thread(glp1);
+		gifThread1.start();
+		frame.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_W){
+					W=true;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_D){
+					D=true;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_S){
+					S=true;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_A){
+					A=true;
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.getKeyCode()==KeyEvent.VK_W){
+					W=false;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_D){
+					D=false;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_S){
+					S=false;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_A){
+					A=false;
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+		});
+		/*
+		KeyStroke testKeyStroke = KeyStroke.getKeyStroke("W");
+		Action testAction = new AbstractAction()
+		{
+		    
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e)
+		    {
+		    	troops[2][2]=EntityMoveToolkit.moveUp(troops[2][2], pane);
+		    	System.out.println("W");
+		    }
+		};
+
+		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(testKeyStroke, "W");
+		frame.getRootPane().getActionMap().put("W",testAction);
+		KeyStroke testKeyStroke1 = KeyStroke.getKeyStroke("D");
+		Action testAction1 = new AbstractAction()
+		{
+		   
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e)
+		    {
+		    	troops[2][2]=EntityMoveToolkit.moveRight(troops[2][2], pane);
+		    	System.out.println("D");
+		    }
+		};
+
+		frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(testKeyStroke1, "D");
+		frame.getRootPane().getActionMap().put("D",testAction1);*/
 	}
 	}
