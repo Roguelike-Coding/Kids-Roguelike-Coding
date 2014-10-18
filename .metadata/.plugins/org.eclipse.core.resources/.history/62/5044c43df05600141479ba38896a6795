@@ -1,0 +1,22 @@
+package com;
+
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
+
+public class Constants {
+	public Entity AUX = new Entity(0, 0, 0, 0, 0, null, null, "/com/resources/entity/SoldierR.gif");
+	
+	public static BufferedImage afterException(URL url){
+		BufferedImage aux = null;
+		try {
+			aux = ImageIO.read(url);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return aux;
+	}
+}

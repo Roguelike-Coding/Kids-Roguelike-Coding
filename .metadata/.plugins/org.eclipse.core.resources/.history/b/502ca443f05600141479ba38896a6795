@@ -7,11 +7,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class Constants {
-	public String R="Red";
-	public String B="Blue";
-	public String G="Green";
-	public String Y="Yellow";
-	
 	public BufferedImage GRASS_BORDER_NORTH=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderNorth.png"));
 	public BufferedImage GRASS_BORDER_SOUTH=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderSouth.png"));
 	public BufferedImage GRASS_BORDER_WEST=afterException(Interpreter.class.getResource("/com/resources/terrain/grassBorderWest.png"));
@@ -44,22 +39,22 @@ public class Constants {
 	public RenderType ROAD_PLAINS=new RenderType("/com/resources/terrain/plainsTile","/com/resources/terrain/roadGrassBack",true,true,ROAD,2,false);
 	
 	public Entity AUX = new Entity(0, 0, 0, 0, 0, null, null, "/com/resources/entity/SoldierR.gif");
-	public Terrain T_PLAINS = new Terrain(PLAINS.getThis(),"Plains");
-	public Terrain T_BEACH = new Terrain(BEACH.getThis(),"Sand");
-	public Terrain T_WATER_PLAINS = new Terrain(WATER_PLAINS.getThis(),"Water");
-	public Terrain T_FOREST_PLAINS = new Terrain(FOREST_PLAINS.getThis(),"Forest");
-	public Terrain T_MOUNTAINS_PLAINS = new Terrain(MOUNTAINS_PLAINS.getThis(),"Mountains");
-	public Terrain T_HOUSE_PLAINS= new Terrain(HOUSE_PLAINS.getThis(),"House");
-	public Terrain T_HOUSE_PLAINS_BLUE= new Terrain(HOUSE_PLAINS_BLUE.getThis(),"House");
-	public Terrain T_HOUSE_PLAINS_RED= new Terrain(HOUSE_PLAINS_RED.getThis(),"House");
-	public Terrain T_HOUSE_PLAINS_GREEN= new Terrain(HOUSE_PLAINS_GREEN.getThis(),"House");
-	public Terrain T_HOUSE_PLAINS_YELLOW= new Terrain(HOUSE_PLAINS_YELLOW.getThis(),"House");
-	public Terrain T_CASTLE_PLAINS= new Terrain(CASTLE_PLAINS.getThis(),"Castle");
-	public Terrain T_CASTLE_PLAINS_BLUE= new Terrain(CASTLE_PLAINS_BLUE.getThis(),"Castle");
-	public Terrain T_CASTLE_PLAINS_RED= new Terrain(CASTLE_PLAINS_RED.getThis(),"Castle");
-	public Terrain T_CASTLE_PLAINS_GREEN= new Terrain(CASTLE_PLAINS_GREEN.getThis(),"Castle");
-	public Terrain T_CASTLE_PLAINS_YELLOW= new Terrain(CASTLE_PLAINS_YELLOW.getThis(),"Castle");
-	public Terrain T_ROAD_PLAINS = new Terrain(ROAD_PLAINS.getThis(),"Road");
+	public Terrain T_PLAINS = new Terrain(10,10,PLAINS.getThis(),null/*For the moment*/,"Plains");
+	public Terrain T_BEACH = new Terrain(10,15,BEACH.getThis(),null/*For the moment*/,"Sand");
+	public Terrain T_WATER_PLAINS = new Terrain(0,30,WATER_PLAINS.getThis(),null/*For the moment*/,"Water");
+	public Terrain T_FOREST_PLAINS = new Terrain(20,20,FOREST_PLAINS.getThis(),null,"Forest");
+	public Terrain T_MOUNTAINS_PLAINS = new Terrain(30,30,MOUNTAINS_PLAINS.getThis(),null,"Mountains");
+	public Terrain T_HOUSE_PLAINS= new Terrain(30,10,HOUSE_PLAINS.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_BLUE= new Terrain(30,10,HOUSE_PLAINS_BLUE.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_RED= new Terrain(30,10,HOUSE_PLAINS_RED.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_GREEN= new Terrain(30,10,HOUSE_PLAINS_GREEN.getThis(),null,"House");
+	public Terrain T_HOUSE_PLAINS_YELLOW= new Terrain(30,10,HOUSE_PLAINS_YELLOW.getThis(),null,"House");
+	public Terrain T_CASTLE_PLAINS= new Terrain(30,10,CASTLE_PLAINS.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_BLUE= new Terrain(30,10,CASTLE_PLAINS_BLUE.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_RED= new Terrain(30,10,CASTLE_PLAINS_RED.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_GREEN= new Terrain(30,10,CASTLE_PLAINS_GREEN.getThis(),null,"Castle");
+	public Terrain T_CASTLE_PLAINS_YELLOW= new Terrain(30,10,CASTLE_PLAINS_YELLOW.getThis(),null,"Castle");
+	public Terrain T_ROAD_PLAINS = new Terrain(10,10,ROAD_PLAINS.getThis(),null/*For the moment*/,"Road");
 
 	public static BufferedImage afterException(URL url){
 		BufferedImage aux = null;
