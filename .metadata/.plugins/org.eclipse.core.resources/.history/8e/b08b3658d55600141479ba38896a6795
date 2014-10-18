@@ -1,0 +1,55 @@
+package com;
+
+import javax.swing.JLayeredPane;
+
+public class EntityMoveToolkit {
+	public static EntityLabel moveUp(Map map,EntityLabel entity, JLayeredPane pane,IsoTile[][] tiles){
+		entity.setLocation(entity.getX(), entity.getY()-1);
+		for(int i=0;i<map.position.length;i++){
+			for(int j=0;j<map.position[0].length;j++){
+				if(entity.getX()>tiles[i][j].getTileLabel().getX()&&entity.getX()<tiles[i][j].getTileLabel().getX()+137&&entity.getY()>tiles[i][j].getTileLabel().getX()-34&&entity.getY()<tiles[i][j].getTileLabel().getX()+35){
+					pane.setLayer(entity, 0, map.position[i][j]);
+				}
+			}
+		}
+		//pane.setLayer(entity, 0, arg2);
+		return entity;
+		
+	}
+	public static EntityLabel moveDown(Map map,EntityLabel entity, JLayeredPane pane,IsoTile[][] tiles){
+		entity.setLocation(entity.getX(), entity.getY()+1);
+		for(int i=0;i<map.position.length;i++){
+			for(int j=0;j<map.position[0].length;j++){
+				if(entity.getX()>tiles[i][j].getTileLabel().getX()&&entity.getX()<tiles[i][j].getTileLabel().getX()+137&&entity.getY()>tiles[i][j].getTileLabel().getX()-34&&entity.getY()<tiles[i][j].getTileLabel().getX()+35){
+					pane.setLayer(entity, 0, map.position[i][j]);
+				}
+			}
+		}
+		return entity;
+		
+	}
+	public static EntityLabel moveLeft(Map map,EntityLabel entity, JLayeredPane pane,IsoTile[][] tiles){
+		entity.setLocation(entity.getX()-2, entity.getY());
+		for(int i=0;i<map.position.length;i++){
+			for(int j=0;j<map.position[0].length;j++){
+				if(entity.getX()>tiles[i][j].getTileLabel().getX()&&entity.getX()<tiles[i][j].getTileLabel().getX()+137&&entity.getY()>tiles[i][j].getTileLabel().getX()-34&&entity.getY()<tiles[i][j].getTileLabel().getX()+35){
+					pane.setLayer(entity, 0, map.position[i][j]);
+				}
+			}
+		}
+		return entity;
+	
+	}
+	public static EntityLabel moveRight(Map map,EntityLabel entity, JLayeredPane pane,IsoTile[][] tiles){
+		entity.setLocation(entity.getX()+2, entity.getY());
+		for(int i=0;i<map.position.length;i++){
+			for(int j=0;j<map.position[0].length;j++){
+				if(entity.getX()>tiles[i][j].getTileLabel().getX()&&entity.getX()<tiles[i][j].getTileLabel().getX()+137&&entity.getY()>tiles[i][j].getTileLabel().getX()-34&&entity.getY()<tiles[i][j].getTileLabel().getX()+35){
+					pane.setLayer(entity, 0, map.position[i][j]);
+				}
+			}
+		}
+		return entity;
+	
+	}
+}

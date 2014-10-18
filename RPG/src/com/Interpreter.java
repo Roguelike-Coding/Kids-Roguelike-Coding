@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -14,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 public class Interpreter implements Runnable{
 	/**
@@ -64,23 +66,57 @@ public class Interpreter implements Runnable{
 				e.printStackTrace();
 			}
 			if(W){
-				troops[2][2]=EntityMoveToolkit.moveUp(troops[2][2], pane);
+				//troops[2][2]=EntityMoveToolkit.moveUp(map, troops[2][2], pane, tiles);
+				troops[2][2].setLocation(troops[2][2].getX(), troops[2][2].getY()-1);
+				
+				for(int i=0;i<map.position.length;i++){
+					for(int j=0;j<map.position[0].length;j++){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+							System.out.println(map.position[i][j]);
+						}
+					}
+				}
 			}
 			if(D){
-				troops[2][2]=EntityMoveToolkit.moveRight(troops[2][2], pane);
+				//troops[2][2]=EntityMoveToolkit.moveRight(map, troops[2][2], pane, tiles);
+				troops[2][2].setLocation(troops[2][2].getX()+2, troops[2][2].getY());
+				
+				for(int i=0;i<map.position.length;i++){
+					for(int j=0;j<map.position[0].length;j++){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+							System.out.println(map.position[i][j]);
+						}
+					}
+				}
 			}
 			if(S){
-				troops[2][2]=EntityMoveToolkit.moveDown(troops[2][2], pane);
+				//troops[2][2]=EntityMoveToolkit.moveDown(map, troops[2][2], pane, tiles);
+				troops[2][2].setLocation(troops[2][2].getX(), troops[2][2].getY()+1);
+				
+				for(int i=0;i<map.position.length;i++){
+					for(int j=0;j<map.position[0].length;j++){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+							System.out.println(map.position[i][j]);
+						}
+					}
+				}
 			}
 			if(A){
-				troops[2][2]=EntityMoveToolkit.moveLeft(troops[2][2], pane);
-			}
-			/*
-			for(int i=0;i<map.position.length;i++){
-				for(int j=0;j<map.position[0].length;i++){
-					if(map.terrain[i][j])
+				//troops[2][2]=EntityMoveToolkit.moveLeft(map, troops[2][2], pane, tiles);
+				troops[2][2].setLocation(troops[2][2].getX()-2, troops[2][2].getY());
+				
+				for(int i=0;i<map.position.length;i++){
+					for(int j=0;j<map.position[0].length;j++){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+							System.out.println(map.position[i][j]);
+						}
+					}
 				}
-			}*/
+			}
 		}}
 	}
 	public IsoTile[][] translateMapTerrain(){
@@ -166,6 +202,12 @@ public class Interpreter implements Runnable{
 		reRender();
 	
 	}
+	public static void main(String[] args) throws InterruptedException,
+	InvocationTargetException {
+
+			SwingUtilities.invokeAndWait(new Interpreter());
+
+	}
 	public void showMap(){
 		int x=0;
 		map.position=new int[map.terrain.length][map.terrain[0].length];
@@ -174,8 +216,9 @@ public class Interpreter implements Runnable{
 				pane.add(tiles[i][j].getTileLabel(),-1,x);
 				pane.add(troops[i][j],0,x);
 				pane.add(tiles[i][j].getFrontLabel(),2,x);
-				x++;
 				map.position[i][j]=x;
+				x++;
+				
 				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
@@ -426,11 +469,11 @@ public class Interpreter implements Runnable{
 		pane.setOpaque(true);
 		pane.setBackground(Color.black);
 		map=new Map(new Terrain[][]{
-				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis()},
-				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_ROAD_PLAINS.getThis()},
-				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_FOREST_PLAINS.getThis()},
-				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
-				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()}
+				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis()},
+				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
+				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_FOREST_PLAINS.getThis()},
+				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
+				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()}
 		},
 		new Entity[][]{
 				{null,null,null,null,null,null},
