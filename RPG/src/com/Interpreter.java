@@ -1,0 +1,407 @@
+package com;
+
+import java.awt.Color;
+import java.awt.Point;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+
+public class Interpreter implements Runnable{
+	/**
+	 * 
+	 */
+	static IsoTile[][] map;
+	static JLabel[][] troops;
+	static Map mapCode;
+	private static boolean translated=false;
+	public JLayeredPane pane;
+	Constants constant = new Constants();
+	public class gifLoop implements Runnable{
+
+		@Override
+		public void run() {
+			while (true) {
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			for(int i=0;i<map.length;i++){
+				for(int j=0;j<map[0].length;j++){
+					if(map[i][j].getTileLabel().getImgs().length>1){
+					if(map[i][j].getTileLabel().getFrame()<map[i][j].getTileLabel().getImgs().length-1){
+						map[i][j].getTileLabel().setFrame(map[i][j].getTileLabel().getFrame()+1);
+					}else{
+						map[i][j].getTileLabel().setFrame(0);
+					}
+					map[i][j].getTileLabel().setImg(map[i][j].getTileLabel().getImgs()[map[i][j].getTileLabel().getFrame()]);
+					}
+			}
+		}
+		}}
+	}
+	
+	public IsoTile[][] translateMapTerrain(){
+		
+		IsoTile[][] output = new IsoTile[mapCode.getHeight()][mapCode.getWidth()];
+		for(int i=0;i<mapCode.getHeight();i++){
+			for(int j=0;j<mapCode.getWidth();j++){
+				if(translated){
+				pane.remove(map[i][j].getBackLabel());
+				pane.remove(map[i][j].getFrontLabel());
+				pane.remove(map[i][j].getTileLabel());
+				}
+				output[i][j]=new IsoTile(mapCode.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i));
+			}
+		}
+		return output;
+	}
+	public JLabel[][] translateMapTroops(){
+		
+		JLabel[][] output = new JLabel[mapCode.getHeight()][mapCode.getWidth()];
+		for(int i=0;i<mapCode.getHeight();i++){
+			for(int j=0;j<mapCode.getWidth();j++){
+				output[i][j]=new JLabel();
+				if(mapCode.getTroops()[i][j]!=null){
+				if(translated){
+				pane.remove(troops[i][j]);
+				}
+				
+				output[i][j].setVisible(true);
+				output[i][j].setIcon(new ImageIcon(Interpreter.class.getResource("/com/resources/entity/"+mapCode.getTroops()[i][j].getName()+mapCode.getTroops()[i][j].getTeamShort()+".gif")));
+				output[i][j].setSize(64, 64);}
+			}
+		}
+		translated=true;
+		return output;
+	}
+	public void reCalculate(){
+		for(int i=0;i<mapCode.getTerrain().length;i++){
+			for(int j=0;j<mapCode.getTerrain()[0].length;j++){
+				if(mapCode.getTerrain()[i][j].getRenderType().isConnected()){
+					RenderType auxiliar = mapCode.getTerrain()[i][j].getRenderType().getThis();
+					if(mapCode.getTerrain()[i][j].getRenderType().getLayer()==1){
+						drawConected(i,j,mapCode.getTerrain()[i][j].renderType.getThis().getConnections());
+					}
+					if(mapCode.getTerrain()[i][j].getRenderType().getLayer()==2){
+						auxiliar.setBackLayer(RenderType.convertTo45Degree(RenderType.afterException(Interpreter.class.getResource(mapCode.getTerrain()[i][j].renderType.getBackPath()+drawBasicConected(i,j,mapCode.getTerrain()[i][j].renderType.getConnections())+".png")),64)[0]);
+						mapCode.terrain[i][j].setRenderType(auxiliar);
+					}
+					if(mapCode.getTerrain()[i][j].getRenderType().getLayer()==3){
+	
+					}
+					
+					//mapCode.terrain[i][j].setRenderType(new RenderType(RenderType.convertTo45Degree(RenderType.fromGIFtoImages(Interpretor.class.getResource("/com/resources/terrain/waterTile"+drawConected(i,j,"Water",null)+".gif")), 64),true,new Terrain[]{constant.T_WATER_PLAINS}));
+				}
+			}
+		}
+		map=translateMapTerrain();
+		troops=translateMapTroops();
+	}
+	public void reRender(){
+		reCalculate();
+		showMap();
+	}
+	public void showMapFirst(){
+		map=translateMapTerrain();
+		troops=translateMapTroops();
+		int x=0;
+		for(int i=0;i<map.length;i++){
+			for(int j=0;j<map[0].length;j++){
+				pane.add(map[i][j].getTileLabel(),-1,x);
+				pane.add(troops[i][j],0,x);
+				pane.add(map[i][j].getFrontLabel(),2,x);
+				x++;
+				pane.add(map[i][j].getBackLabel(),0,x);
+				
+				x++;
+				troops[i][j].setLocation(400+36+j-126/2*i+126/2*j,400+45-63/2*j-63/2*i);
+				map[i][j].setAllVisible(true);
+				map[i][j].setAllBounds(400-126/2*i+126/2*j,400-63/2*j-63/2*i);	
+				
+			}
+		}
+		reRender();
+	
+	}
+	public void showMap(){
+		int x=0;
+		for(int i=0;i<map.length;i++){
+			for(int j=0;j<map[0].length;j++){
+				pane.add(map[i][j].getTileLabel(),-1,x);
+				pane.add(troops[i][j],0,x);
+				pane.add(map[i][j].getFrontLabel(),2,x);
+				x++;
+				pane.add(map[i][j].getBackLabel(),0,x);
+				
+				x++;
+				troops[i][j].setLocation(400+36+j-124/2*i+124/2*j,400+45-62/2*j-62/2*i);
+				map[i][j].setAllVisible(true);
+				map[i][j].setAllBounds(400-124/2*i+124/2*j,400-62/2*j-62/2*i);	
+			}
+		}
+	}
+	public String drawBasicConected(int i,int j,ConnectionType connectionType){
+		String term="";
+		if(connectionType.getType()==1){
+		boolean n=false,e=false,s=false,v=false;
+		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
+		if(!n){
+			try {
+				
+			if (mapCode.getTerrain()[i][j + 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+				term+="N";
+				
+				n=true;
+			}
+		} catch (Exception x) {
+			term+="N";
+			n=true;
+		}}}
+		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
+		// East
+		if(!e){
+		try {
+			if (mapCode.getTerrain()[i-1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+				term+="E";
+				e=true;
+			}
+		} catch (Exception x ) {
+			term+="E";
+			e=true;
+		}}}
+		// South
+		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
+		if(!s){
+		try {
+			if (mapCode.getTerrain()[i][j - 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+				term+="S";
+				s=true;
+			}
+		} catch (Exception x) {
+			term+="S";
+			s=true;
+		}}}
+		// Vest
+		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
+		if(!v){
+		try {
+			if (mapCode.getTerrain()[i+1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+				term+="V";
+				v=true;
+			}
+		}
+		 catch (Exception x) {
+			 term+="V";
+			v=true;
+		}}
+		} 
+		}else{
+			boolean n=false,e=false,s=false,v=false;
+			for(int o=0;o<connectionType.getMultiple().length;o++){
+				
+				ConnectionType aux=connectionType.getMultiple()[o];
+				for(int k=0;k<aux.getTerrainTypes().length;k++){
+				if(!n){
+					try {
+						
+					if (mapCode.getTerrain()[i][j + 1].getName().equals(aux.getTerrainTypes()[k])) {
+						term+="N";
+						
+						n=true;
+					}
+				} catch (Exception x) {
+					term+="N";
+					n=true;
+				}}}}
+			for(int o=0;o<connectionType.getMultiple().length;o++){
+
+				ConnectionType aux=connectionType.getMultiple()[o];
+				for(int k=0;k<aux.getTerrainTypes().length;k++){
+				// East
+				if(!e){
+				try {
+					if (mapCode.getTerrain()[i-1][j].getName().equals(aux.getTerrainTypes()[k])) {
+						term+="E";
+						e=true;
+					}
+				} catch (Exception x ) {
+					term+="E";
+					e=true;
+				}}}}
+			for(int o=0;o<connectionType.getMultiple().length;o++){
+				
+				ConnectionType aux=connectionType.getMultiple()[o];
+				// South
+				for(int k=0;k<aux.getTerrainTypes().length;k++){
+				if(!s){
+				try {
+					if (mapCode.getTerrain()[i][j - 1].getName().equals(aux.getTerrainTypes()[k])) {
+						term+="S";
+						s=true;
+					}
+				} catch (Exception x) {
+					term+="S";
+					s=true;
+				}}}}
+			for(int o=0;o<connectionType.getMultiple().length;o++){
+					
+				ConnectionType aux=connectionType.getMultiple()[o];
+				// Vest
+				for(int k=0;k<aux.getTerrainTypes().length;k++){
+				if(!v){
+				try {
+					if (mapCode.getTerrain()[i+1][j].getName().equals(aux.getTerrainTypes()[k])) {
+						term+="V";
+						v=true;
+					}
+				}
+				 catch (Exception x) {
+					 term+="V";
+					v=true;
+				}}
+				} 
+			}
+		}
+		return term;
+	}
+	public void drawConected(int i,int j,ConnectionType connectionType){
+		boolean n=false,e=false,s=false,v=false;
+		RenderType aux=mapCode.getTerrain()[i][j].renderType.getThis();
+		if(connectionType.getType()==1){
+		
+		for(int k=0;k<connectionType.getTerrainTypes().length;k++){
+		if(!n){
+			try {
+				
+				if (mapCode.getTerrain()[i][j + 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+					aux.mergeTwoImages(connectionType.getConectionType(), 1);
+					n=true;
+				}
+		} catch (Exception x) {
+			
+			n=true;
+		}}
+		// East
+		if(!e){
+		try {
+			if (mapCode.getTerrain()[i-1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+				aux.mergeTwoImages(connectionType.getConectionType(), 2);
+				e=true;
+			}
+		} catch (Exception x ) {
+			
+			e=true;
+		}}
+		if(!s){
+		try {
+			if (mapCode.getTerrain()[i][j - 1].getName().equals(connectionType.getTerrainTypes()[k])) {
+				aux.mergeTwoImages(connectionType.getConectionType(), 3);
+				s=true;
+			}
+		} catch (Exception x) {
+			
+			s=true;
+		}}
+		if(!v){
+		try {
+			if (mapCode.getTerrain()[i+1][j].getName().equals(connectionType.getTerrainTypes()[k])) {
+				
+				aux.mergeTwoImages(connectionType.getConectionType(), 4);
+				v=true;
+			}
+		}
+		 catch (Exception x) {
+			
+			v=true;
+		}}
+		} 
+		}else{
+			for(int o=0;o<connectionType.getMultiple().length;o++){
+				
+				ConnectionType aux2=connectionType.getMultiple()[o];
+				for(int k=0;k<aux2.getTerrainTypes().length;k++){
+				if(!n){
+					try {
+						if (mapCode.getTerrain()[i][j + 1].getName().equals(aux2.getTerrainTypes()[k])) {
+							aux.mergeTwoImages(aux2.getConectionType(), 1);
+							n=true;
+						}
+				} catch (Exception x) {
+					n=true;
+				}}
+				// East
+				if(!e){
+				try {
+					if (mapCode.getTerrain()[i-1][j].getName().equals(aux2.getTerrainTypes()[k])) {
+						aux.mergeTwoImages(aux2.getConectionType(), 2);
+						e=true;
+					}
+				} catch (Exception x ) {
+					
+					e=true;
+				}}
+				if(!s){
+					try {
+						if (mapCode.getTerrain()[i][j - 1].getName().equals(aux2.getTerrainTypes()[k])) {
+							aux.mergeTwoImages(aux2.getConectionType(), 3);
+							s=true;
+							
+						}
+					} catch (Exception x) {
+						
+						s=true;
+					}}
+				if(!v){
+					try {
+						if (mapCode.getTerrain()[i+1][j].getName().equals(aux2.getTerrainTypes()[k])) {
+							aux.mergeTwoImages(aux2.getConectionType(), 4);
+							v=true;
+							
+						}
+					} catch (Exception x) {
+						
+						v=true;
+					}}
+				} 
+			}
+		}
+		mapCode.getTerrain()[i][j].renderType=aux;
+	}
+	public void run() {
+		JFrame frame=new JFrame();
+		pane=new JLayeredPane();
+		frame.add(pane);
+		
+		frame.setTitle("dsdasfsdf");
+		frame.setVisible(true);
+		frame.setSize(1000,800);
+		pane.setVisible(true);
+		pane.setSize(100001,100000);
+		pane.setLocation(0,0);
+		pane.setOpaque(true);
+		pane.setBackground(Color.black);
+		mapCode=new Map(new Terrain[][]{
+				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_BEACH.getThis(),constant.T_ROAD_PLAINS.getThis()},
+				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_ROAD_PLAINS.getThis()},
+				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_FOREST_PLAINS.getThis()},
+				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
+				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()}
+		},
+		new Troop[][]{
+				{constant.ARCHER_B,null,null,null,null,null},
+				{null,null,null,null,null,null},
+				{null,constant.ARCHER_B,null,null,null,null},
+				{null,null,null,null,null,null},
+				{null,null,null,null,null,null}
+		}
+		);
+		showMapFirst();
+		Thread gifThread ;
+		gifLoop glp = this.new gifLoop();
+		gifThread = new Thread(glp);
+		gifThread.start();
+	}
+	}
