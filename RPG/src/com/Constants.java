@@ -59,40 +59,7 @@ public class Constants {
 	public Terrain T_CASTLE_PLAINS_GREEN= new Terrain(30,10,CASTLE_PLAINS_GREEN.getThis(),null,"Castle");
 	public Terrain T_CASTLE_PLAINS_YELLOW= new Terrain(30,10,CASTLE_PLAINS_YELLOW.getThis(),null,"Castle");
 	public Terrain T_ROAD_PLAINS = new Terrain(10,10,ROAD_PLAINS.getThis(),null/*For the moment*/,"Road");
-	
-	public Troop ARCHER_B=new Troop(100, 110, 20, 40, "Archer", B, 300);
-	public Troop ARCHER_R=new Troop(100, 110, 20, 40, "Archer", R, 300);
-	public Troop ARCHER_G=new Troop(100, 110, 20, 40, "Archer", G, 300);
-	public Troop ARCHER_Y=new Troop(100, 110, 20, 40, "Archer", Y, 300);
-	public Troop COMMANDER_B=new Troop(100, 120, 40, 30, "Commander", B, -1);
-	public Troop COMMANDER_R=new Troop(100, 120, 40, 30, "Commander", R, -1);
-	public Troop COMMANDER_G=new Troop(100, 120, 40, 30, "Commander", G, -1);
-	public Troop COMMANDER_Y=new Troop(100, 120, 40, 30, "Commander", Y, -1);
-	public Troop IMP_B=new Troop(100, 100, 60, 60, "Imp", B, 1000);
-	public Troop IMP_R=new Troop(100, 100, 60, 60, "Imp", R, 1000);
-	public Troop IMP_G=new Troop(100, 100, 60, 60, "Imp", G, 1000);
-	public Troop IMP_Y=new Troop(100, 100, 60, 60, "Imp", Y, 1000);
-	public Troop MAGE_B=new Troop(100, 80, 30, 30, "Mage", B, 400);
-	public Troop MAGE_R=new Troop(100, 80, 30, 30, "Mage", R, 400);
-	public Troop MAGE_G=new Troop(100, 80, 30, 30, "Mage", G, 400);
-	public Troop MAGE_Y=new Troop(100, 80, 30, 30, "Mage", Y, 400);
-	public Troop MILITIA_B=new Troop(100, 50, 20, 30, "Militia", B, 100);
-	public Troop MILITIA_R=new Troop(100, 50, 20, 30, "Militia", R, 100);
-	public Troop MILITIA_G=new Troop(100, 50, 20, 30, "Militia", G, 100);
-	public Troop MILITIA_Y=new Troop(100, 50, 20, 30, "Militia", Y, 100);
-	public Troop SKELETON_B=new Troop(100, 60, 10, 30, "Skeleton", B, -1);
-	public Troop SKELETON_R=new Troop(100, 60, 10, 30, "Skeleton", R, -1);
-	public Troop SKELETON_G=new Troop(100, 60, 10, 30, "Skeleton", G, -1);
-	public Troop SKELETON_Y=new Troop(100, 60, 10, 30, "Skeleton", Y, -1);
-	public Troop SOLDIER_B=new Troop(100, 70, 30, 30, "Soldier", B, 150);
-	public Troop SOLDIER_R=new Troop(100, 70, 30, 30, "Soldier", R, 150);
-	public Troop SOLDIER_G=new Troop(100, 70, 30, 30, "Soldier", G, 150);
-	public Troop SOLDIER_Y=new Troop(100, 70, 30, 30, "Soldier", Y, 150);
-	public Troop SPIDER_B=new Troop(100, 70, 20, 50, "Spider", B, 700);
-	public Troop SPIDER_R=new Troop(100, 70, 20, 50, "Spider", R, 700);
-	public Troop SPIDER_G=new Troop(100, 70, 20, 50, "Spider", G, 700);
-	public Troop SPIDER_Y=new Troop(100, 70, 20, 50, "Spider", Y, 700);
-	public Troop TOMB=new Troop(-1,-1,-1,-1,"Tomb",null,-1);
+
 	public static BufferedImage afterException(URL url){
 		BufferedImage aux = null;
 		try {

@@ -1,0 +1,82 @@
+package com;
+
+public class Entity {
+	private int baseHp;
+	private int hpMax;
+	private int hp;
+	private int damage;
+	public int damageFinal;
+	private int defense;
+	public int defenseFinal;
+	private String name;
+	private String customName=null;
+	public Entity(int baseHp,int damage,int defense,String name){
+		this.setBaseHp(baseHp);
+		this.setHp(baseHp);
+		this.setDamage(damage);
+		this.setDefense(defense);
+		this.setName(name);
+	}
+	public Entity(int baseHp,int hpMax,int currentHp,int damage,int defense,String name,String customName){
+		this.setBaseHp(baseHp);
+		this.setHpMax(hpMax);
+		this.setHp(currentHp);
+		this.setDamage(damage);
+		this.setDefense(defense);
+		this.setName(name);
+		this.setCustomName(customName);
+	}
+	public Entity getThis(){
+		Entity output = new Entity(baseHp,hpMax,hp,damage,defense,name,customName);
+		return output;
+	}
+	public int getHpMax() {
+		return hpMax;
+	}
+	public void setHpMax(int hpMax) {
+		this.hpMax = hpMax;
+	}
+	public int getHp() {
+		return hp;
+	}
+	public void setHp(int hp) {
+		this.hp = hp;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	public int getDefense() {
+		return defense;
+	}
+	public void setDefense(int defense) {
+		this.defense = defense;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCustomName() {
+		if(customName!=null){
+			return name;
+		}
+		return customName;
+	}
+	public void setCustomName(String customName) {
+		this.customName = customName;
+	}
+	public char getTeamShort(){
+		return getTeam().charAt(0);
+	}
+	public int getBaseHp() {
+		return baseHp;
+	}
+	public void setBaseHp(int baseHp) {
+		this.baseHp = baseHp;
+	}
+}

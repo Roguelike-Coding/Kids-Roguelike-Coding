@@ -1,0 +1,26 @@
+package com;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+public class EntityLabel extends JLabel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Entity entity;
+	
+	public EntityLabel(Entity entity){
+		setEntity(entity);
+		if(!entity.equals(null))
+		setIcon(new ImageIcon());
+	}
+
+	public Entity getEntity() {
+		return entity;
+	}
+
+	public void setEntity(Entity entity) {
+		this.entity = entity;
+	}
+}

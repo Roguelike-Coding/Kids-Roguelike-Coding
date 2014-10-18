@@ -2,16 +2,16 @@ package com;
 
 public class Map {
 	public Terrain[][] terrain;
-	public Troop[][] troops;
+	public Entity[][] troops;
 	
 	
-	public Troop[][] getTroops() {
+	public Entity[][] getTroops() {
 		return troops;
 	}
 
 
 
-	public void setTroops(Troop[][] troops) {
+	public void setTroops(Entity[][] troops) {
 		this.troops = troops;
 	}
 
@@ -19,12 +19,12 @@ public class Map {
 
 	public Map(int x,int y){
 		setTerrain(new Terrain[x][y]);
-		setTroops(new Troop[x][y]);
+		setTroops(new Entity[x][y]);
 	}
 
 
 	
-	public Map(Terrain[][] terrain,Troop[][] troops){
+	public Map(Terrain[][] terrain,Entity[][] troops){
 		setTerrain(terrain);
 		setTroops(troops);
 	}
@@ -40,7 +40,7 @@ public class Map {
 	public void setTerrainTile(Terrain terrain,int i,int j) {
 		this.terrain[i][j] = terrain;
 	}
-	public void setTroop(Troop troop,int i,int j) {
+	public void setTroop(Entity troop,int i,int j) {
 		this.troops[i][j] = troop;
 	}
 	public void setTerrain(Terrain[][] terrain) {

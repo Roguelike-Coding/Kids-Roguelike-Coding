@@ -13,7 +13,7 @@ public class Interpreter implements Runnable{
 	 * 
 	 */
 	static IsoTile[][] map;
-	static JLabel[][] troops;
+	static EntityLabel[][] troops;
 	static Map mapCode;
 	private static boolean translated=false;
 	public JLayeredPane pane;
@@ -58,19 +58,20 @@ public class Interpreter implements Runnable{
 		}
 		return output;
 	}
-	public JLabel[][] translateMapTroops(){
+	public EntityLabel[][] translateMapTroops(){
 		
-		JLabel[][] output = new JLabel[mapCode.getHeight()][mapCode.getWidth()];
+		EntityLabel[][] output = new EntityLabel[mapCode.getHeight()][mapCode.getWidth()];
 		for(int i=0;i<mapCode.getHeight();i++){
 			for(int j=0;j<mapCode.getWidth();j++){
-				output[i][j]=new JLabel();
+				output[i][j]=new EntityLabel(null);
 				if(mapCode.getTroops()[i][j]!=null){
+					output[i][j]=new EntityLabel(mapCode.getTroops()[i][j]);
 				if(translated){
 				pane.remove(troops[i][j]);
 				}
 				
 				output[i][j].setVisible(true);
-				output[i][j].setIcon(new ImageIcon(Interpreter.class.getResource("/com/resources/entity/"+mapCode.getTroops()[i][j].getName()+mapCode.getTroops()[i][j].getTeamShort()+".gif")));
+				output[i][j].setIcon(new ImageIcon(Interpreter.class.getResource("/com/resources/entity/"+mapCode.getTroops()[i][j].getName()+".gif")));
 				output[i][j].setSize(64, 64);}
 			}
 		}
@@ -390,10 +391,10 @@ public class Interpreter implements Runnable{
 				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
 				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_ROAD_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()}
 		},
-		new Troop[][]{
-				{constant.ARCHER_B,null,null,null,null,null},
+		new Entity[][]{
 				{null,null,null,null,null,null},
-				{null,constant.ARCHER_B,null,null,null,null},
+				{null,null,null,null,null,null},
+				{null,null,null,null,null,null},
 				{null,null,null,null,null,null},
 				{null,null,null,null,null,null}
 		}
