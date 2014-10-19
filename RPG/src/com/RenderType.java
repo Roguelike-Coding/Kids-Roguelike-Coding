@@ -208,7 +208,11 @@ public class RenderType {
 		boolean mid=true;
 		for(int i=strx;i<=finx;i++){
 			if(mid){
-				auxiliarImage[index].setRGB(i,h,image.getRGB(x, y));
+				try{
+				auxiliarImage[index].setRGB(i,h,image.getRGB(x, y));}
+				catch(Exception e){
+					
+				}
 			x++;
 			y--;}
 			else{
@@ -216,7 +220,11 @@ public class RenderType {
 				int a2=new Color(image.getRGB(x,y)).getAlpha();
 				int newa=(a1+a2)/2;
 				if(newa>100)
+					try{
 				auxiliarImage[index].setRGB(i,h,image.getRGB(x, y));
+					}catch(Exception e){
+					
+				}
 			}
 			mid=!mid;
 		}

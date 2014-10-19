@@ -19,8 +19,12 @@ public class TileLabel extends JComponent {
 	 * @param bufferedImage
 	 * @param ifTile
 	 */
-	public TileLabel(BufferedImage[] bufferedImage,boolean ifTile){
+	public TileLabel(BufferedImage[] bufferedImage,boolean ifTile,boolean rotate){
+		if(rotate||bufferedImage[0].getHeight()==64)
 		img=RenderType.convertTo45Degree(bufferedImage,64)[0];
+		else
+			img=bufferedImage[0];
+		if(rotate||bufferedImage[0].getHeight()==64)
 		setImgs(bufferedImage);
 		this.setIfTile(ifTile);
 		this.setVisible(true);

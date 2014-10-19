@@ -1,0 +1,38 @@
+package com;
+
+public class Armor extends ItemEntity implements EquipableItem , UpgradableItem  {
+	private int upgradeLevel;
+	public Armor(String name, String path, boolean inInventory,int defense ,int upgradeLevel) {
+		super(name, path, inInventory);
+		this.setBaseDefense(defense);
+		this.setUpgradeLevel(upgradeLevel);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void upgradeItem(ItemEntity item) {
+		if(Item.)
+		setUpgradeLevel(getUpgradeLevel()+1);
+	}
+
+	@Override
+	public void equipItem(EquipableItem item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unequipItem() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getUpgradeLevel() {
+		return upgradeLevel;
+	}
+
+	public void setUpgradeLevel(int upgradeLevel) {
+		this.upgradeLevel = upgradeLevel;
+	}
+
+}

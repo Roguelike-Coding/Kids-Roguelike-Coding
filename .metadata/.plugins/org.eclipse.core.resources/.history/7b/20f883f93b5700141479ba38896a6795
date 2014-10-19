@@ -1,0 +1,12 @@
+package com;
+
+public interface Items {
+	
+	public void pickItem(Item item);
+	
+	public void dropItem();
+	
+	public void useItem();
+	
+	
+}

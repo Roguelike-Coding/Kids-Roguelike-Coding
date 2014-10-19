@@ -1,0 +1,16 @@
+package com;
+
+public class InventorySlot extends ItemEntity {
+	private int stack;
+	public InventorySlot(String name, String path, boolean inInventory) {
+		super(name, path, inInventory);
+		// TODO Auto-generated constructor stub
+	}
+	public int getStack() {
+		return stack;
+	}
+	public void setStack(int stack) {
+		this.stack = stack;
+	}
+
+}

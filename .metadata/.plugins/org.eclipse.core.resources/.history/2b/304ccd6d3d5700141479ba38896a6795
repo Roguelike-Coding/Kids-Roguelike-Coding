@@ -1,0 +1,27 @@
+package com;
+
+
+public class ItemEntity extends Entity implements Item {
+
+	public ItemEntity(){
+		
+	}
+
+	@Override
+	public void pickItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void useItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+}

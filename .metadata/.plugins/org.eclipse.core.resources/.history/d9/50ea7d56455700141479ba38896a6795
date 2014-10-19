@@ -1,0 +1,13 @@
+package com;
+
+public interface Item {
+	
+	public void pickItem(ItemEntity item,Inventory inventory);
+	
+	public void dropItem(ItemEntity item);
+	
+	public void useItem(ItemEntity item);
+	
+	public void addActions();
+	
+}

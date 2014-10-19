@@ -3,6 +3,7 @@ package com;
 public class Map {
 	public Terrain[][] terrain;
 	public Entity[][] troops;
+	public ItemEntity[][] items;
 	public int[][] position;
 	
 	public Entity[][] getTroops() {
@@ -17,6 +18,18 @@ public class Map {
 
 
 
+	public ItemEntity[][] getItems() {
+		return items;
+	}
+
+
+
+	public void setItems(ItemEntity[][] items2) {
+		this.items = items2;
+	}
+
+
+
 	public Map(int x,int y){
 		setTerrain(new Terrain[x][y]);
 		setTroops(new Entity[x][y]);
@@ -24,9 +37,10 @@ public class Map {
 
 
 	
-	public Map(Terrain[][] terrain,Entity[][] troops){
+	public Map(Terrain[][] terrain,Entity[][] troops,ItemEntity[][] items){
 		setTerrain(terrain);
 		setTroops(troops);
+		setItems(items);
 	}
 
 	

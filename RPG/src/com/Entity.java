@@ -17,7 +17,7 @@ public class Entity {
 	private String name;
 	private String customName=null;
 	private BufferedImage[] frames;
-	public static BufferedImage[] afterException(URL url){
+	public BufferedImage[] afterException(URL url){
 		BufferedImage[] aux = new BufferedImage[1];
 		try {
 			aux[0] = ImageIO.read(url);
@@ -26,6 +26,9 @@ public class Entity {
 			e.printStackTrace();
 		}
 		return aux;
+	}
+	public Entity(){
+		
 	}
 	public Entity(int baseHp,int damage,int defense,String name,String imgPath){
 		this.setBaseHp(baseHp);

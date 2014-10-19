@@ -1,0 +1,7 @@
+package com;
+
+public interface UpgradableItem extends Item {
+	int upgradeLevel=0;
+	
+	public void upgradeItem(Item item);
+}

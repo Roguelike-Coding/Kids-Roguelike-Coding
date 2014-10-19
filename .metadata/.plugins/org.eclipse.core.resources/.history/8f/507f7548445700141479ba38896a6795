@@ -1,0 +1,7 @@
+package com;
+
+public interface EquipableItem extends Item {
+	public Inventory equipItem(ItemEntity item,Inventory inventory);
+	
+	public void unequipItem();
+}

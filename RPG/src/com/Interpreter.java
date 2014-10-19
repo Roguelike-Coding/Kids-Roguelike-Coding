@@ -21,12 +21,16 @@ public class Interpreter implements Runnable{
 	/**
 	 * 
 	 */
+	Player player=new Player();
+	JLabel left=new JLabel();
+	JLabel right=new JLabel();
 	boolean W=false;
 	boolean D=false;
 	boolean A=false;
 	boolean S=false;
 	static IsoTile[][] tiles;
 	static EntityLabel[][] troops;
+	EntityLabel[][] items;
 	static Map map;
 	private static boolean translated=false;
 	public JLayeredPane pane;
@@ -65,54 +69,61 @@ public class Interpreter implements Runnable{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			int ax=tiles[tiles.length-2][0].getBackLabel().getX()+63;
+			int ay=tiles[tiles.length-2][0].getBackLabel().getY()+32;
+			int bx=tiles[tiles.length-2][tiles[0].length-2].getBackLabel().getX()+63;
+			int by=tiles[tiles.length-2][tiles[0].length-2].getBackLabel().getY()+32;
+			int cx=tiles[0][tiles[0].length-2].getBackLabel().getX()+63;
+			int cy=tiles[0][tiles[0].length-2].getBackLabel().getY()+32;
+			int dx=tiles[0][0].getBackLabel().getX()+63;
+			int dy=tiles[0][0].getBackLabel().getY()+32;
+			int tx=troops[2][2].getX()+24;
+			int ty=troops[2][2].getY()-8;
 			if(W){
-				//troops[2][2]=EntityMoveToolkit.moveUp(map, troops[2][2], pane, tiles);
+				if(!(Integer.signum( (bx-ax)*(ty-ay) - (by-ay)*(tx-ax) )==-1||Integer.signum( (cx-bx)*(ty-by) - (cy-by)*(tx-bx) )==-1))
 				troops[2][2].setLocation(troops[2][2].getX(), troops[2][2].getY()-1);
-				
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
 							pane.setLayer(troops[2][2], 0, map.position[i][j]);
-							System.out.println(map.position[i][j]);
 						}
 					}
 				}
 			}
 			if(D){
-				//troops[2][2]=EntityMoveToolkit.moveRight(map, troops[2][2], pane, tiles);
+				if(!(Integer.signum( (cx-bx)*(ty-by) - (cy-by)*(tx-bx) )==-1||Integer.signum( (dx-cx)*(ty-cy) - (dy-cy)*(tx-cx) )==-1))
 				troops[2][2].setLocation(troops[2][2].getX()+2, troops[2][2].getY());
 				
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
 							pane.setLayer(troops[2][2], 0, map.position[i][j]);
-							System.out.println(map.position[i][j]);
 						}
 					}
 				}
 			}
 			if(S){
-				//troops[2][2]=EntityMoveToolkit.moveDown(map, troops[2][2], pane, tiles);
+				if(!(Integer.signum( (dx-cx)*(ty-cy) - (dy-cy)*(tx-cx) )==-1||Integer.signum( (ax-dx)*(ty-dy) - (ay-dy)*(tx-dx) )==-1))
 				troops[2][2].setLocation(troops[2][2].getX(), troops[2][2].getY()+1);
 				
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
 							pane.setLayer(troops[2][2], 0, map.position[i][j]);
-							System.out.println(map.position[i][j]);
+
 						}
 					}
 				}
 			}
 			if(A){
 				//troops[2][2]=EntityMoveToolkit.moveLeft(map, troops[2][2], pane, tiles);
+				if(!(Integer.signum( (ax-dx)*(ty-dy) - (ay-dy)*(tx-dx) )==-1||Integer.signum( (bx-ax)*(ty-ay) - (by-ay)*(tx-ax) )==-1))
 				troops[2][2].setLocation(troops[2][2].getX()-2, troops[2][2].getY());
-				
+			
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+69-35&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+69){
+						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
 							pane.setLayer(troops[2][2], 0, map.position[i][j]);
-							System.out.println(map.position[i][j]);
 						}
 					}
 				}
@@ -129,7 +140,7 @@ public class Interpreter implements Runnable{
 				pane.remove(tiles[i][j].getFrontLabel());
 				pane.remove(tiles[i][j].getTileLabel());
 				}
-				output[i][j]=new IsoTile(map.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i));
+				output[i][j]=new IsoTile(map.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i),false);
 			}
 		}
 		return output;
@@ -144,6 +155,24 @@ public class Interpreter implements Runnable{
 					output[i][j]=new EntityLabel(map.getTroops()[i][j]);
 				if(translated){
 				pane.remove(troops[i][j]);
+				}
+				
+				output[i][j].setVisible(true);
+				output[i][j].setSize(64, 64);}
+			}
+		}
+		return output;
+	}
+public EntityLabel[][] translateMapItems(){
+		
+		EntityLabel[][] output = new EntityLabel[map.getHeight()][map.getWidth()];
+		for(int i=0;i<map.getHeight();i++){
+			for(int j=0;j<map.getWidth();j++){
+				output[i][j]=new EntityLabel(null);
+				if(map.getItems()[i][j]!=null){
+					output[i][j]=new EntityLabel(map.getItems()[i][j]);
+				if(translated){
+				pane.remove(items[i][j]);
 				}
 				
 				output[i][j].setVisible(true);
@@ -175,6 +204,7 @@ public class Interpreter implements Runnable{
 		}
 		tiles=translateMapTerrain();
 		troops=translateMapTroops();
+		items=translateMapItems();
 	}
 	public void reRender(){
 		reCalculate();
@@ -183,16 +213,24 @@ public class Interpreter implements Runnable{
 	public void showMapFirst(){
 		tiles=translateMapTerrain();
 		troops=translateMapTroops();
+		items=translateMapItems();
 		int x=0;
 		for(int i=0;i<tiles.length;i++){
 			for(int j=0;j<tiles[0].length;j++){
 				pane.add(tiles[i][j].getTileLabel(),-1,x);
-				pane.add(troops[i][j],0,x);
+				
+				
 				pane.add(tiles[i][j].getFrontLabel(),2,x);
+				pane.add(troops[i][j],0,x);
 				x++;
+				pane.add(items[i][j],0,x);
+				
+				x++;
+				
 				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
+				items[i][j].setLocation(400+36+j-127/2*i+127/2*j,400+45-63/2*j-63/2*i);
 				troops[i][j].setLocation(400+36+j-126/2*i+126/2*j,400+45-63/2*j-63/2*i);
 				tiles[i][j].setAllVisible(true);
 				tiles[i][j].setAllBounds(400-126/2*i+126/2*j,400-63/2*j-63/2*i);	
@@ -214,19 +252,28 @@ public class Interpreter implements Runnable{
 		for(int i=0;i<tiles.length;i++){
 			for(int j=0;j<tiles[0].length;j++){
 				pane.add(tiles[i][j].getTileLabel(),-1,x);
-				pane.add(troops[i][j],0,x);
+				
+				
 				pane.add(tiles[i][j].getFrontLabel(),2,x);
-				map.position[i][j]=x;
+				
+				pane.add(troops[i][j],0,x);
+				map.position[i][j]=x-1;
+				x++;
+				pane.add(items[i][j],0,x);
+				
 				x++;
 				
 				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
-				troops[i][j].setLocation(400+36+j-124/2*i+124/2*j,400+45-62/2*j-62/2*i);
+				items[i][j].setLocation(400+36+j-127/2*i+127/2*j,400+45-63/2*j-63/2*i);
+				troops[i][j].setLocation(400+36+j-127/2*i+127/2*j,400+45-63/2*j-63/2*i);
 				tiles[i][j].setAllVisible(true);
-				tiles[i][j].setAllBounds(400-124/2*i+124/2*j,400-62/2*j-62/2*i);	
+				tiles[i][j].setAllBounds(400-127/2*i+127/2*j,400-63/2*j-63/2*i);	
 			}
 		}
+		left.setLocation(tiles[map.terrain.length-1][0].getTileLabel().getX()+64-100,tiles[map.terrain.length-1][0].getTileLabel().getY()-63);
+		right.setLocation(tiles[0][map.terrain[0].length-1].getTileLabel().getX()+64,tiles[0][map.terrain[0].length-1].getTileLabel().getY()-63);
 	}
 	public String drawBasicConected(int i,int j,ConnectionType connectionType){
 		String term="";
@@ -469,11 +516,11 @@ public class Interpreter implements Runnable{
 		pane.setOpaque(true);
 		pane.setBackground(Color.black);
 		map=new Map(new Terrain[][]{
-				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis()},
-				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
-				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_FOREST_PLAINS.getThis()},
-				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()},
-				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_PLAINS.getThis()}
+				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WALL4.getThis()},
+				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_WALL1.getThis()},
+				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_WALL2.getThis()},
+				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_WALL1.getThis()},
+				{constant.T_WALL1.getThis(),constant.T_WALL3.getThis(),constant.T_WALL1.getThis(),constant.T_WALL2.getThis(),constant.T_WALL1.getThis(),constant.T_WALL1.getThis()}
 		},
 		new Entity[][]{
 				{null,null,null,null,null,null},
@@ -481,9 +528,26 @@ public class Interpreter implements Runnable{
 				{null,null,constant.AUX,null,null,null},
 				{null,null,null,null,null,null},
 				{null,null,null,null,null,null}
+		},
+		new ItemEntity[][]{
+				{null,null,null,null,null,null},
+				{null,null,null,null,null,null},
+				{null,null,null,null,null,null},
+				{null,null,null,constant.P_HEALTH,null,null},
+				{null,null,null,null,null,null}
 		}
 		);
-		
+
+		pane.add(left,2,0);
+		pane.add(right,2,0);
+		left.setSize(100, 200);
+		right.setSize(100, 200);
+		left.setBackground(Color.BLACK);
+		right.setBackground(Color.BLACK);
+		left.setOpaque(true);
+		right.setOpaque(true);
+		left.setVisible(true);
+		right.setVisible(true);
 		showMapFirst();
 		Thread gifThread ;
 		gifLoop glp = this.new gifLoop();
@@ -493,6 +557,7 @@ public class Interpreter implements Runnable{
 		gameLoop glp1 = this.new gameLoop();
 		gifThread1 = new Thread(glp1);
 		gifThread1.start();
+		map.items[3][3].useItem(null);
 		frame.addKeyListener(new KeyListener(){
 
 			@Override
@@ -508,6 +573,31 @@ public class Interpreter implements Runnable{
 				}
 				if(arg0.getKeyCode()==KeyEvent.VK_A){
 					A=true;
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_E){
+					int x=troops[2][2].getX()+32;
+					int y=troops[2][2].getY()+32;
+					boolean found=false;
+					for(int i=0;i<items.length;i++){
+						for(int j=0;j<items[0].length;j++){
+							if(items[i][j].getX()+32>=x-64&&items[i][j].getX()+32<=x+64&&items[i][j].getY()+32>=y-64&&items[i][j].getY()+32>=y-64&&!found&&items[i][j].getEntity()!=null){
+								found=true;
+								ItemEntity aux=(ItemEntity) items[i][j].getEntity();
+								items[i][j].setEntity(null);
+								pane.remove(items[i][j]);
+								map.items[i][j]=null;
+								aux.pickItem(aux, player.inventory);
+								reRender();
+							}
+						}
+					}
+				}
+				if(arg0.getKeyCode()==KeyEvent.VK_Q){
+					ItemEntity item = player.inventory.slots[0][0].getItem();
+					Point point=player.inventory.slots[0][0].getItem().dropItem(player.inventory.slots[0][0].getItem(), player, items, troops[2][2]);
+					System.out.println(point);
+					map.items[point.x][point.y]=item;
+					reRender();
 				}
 			}
 

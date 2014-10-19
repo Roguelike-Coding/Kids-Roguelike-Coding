@@ -1,0 +1,10 @@
+package com;
+
+public class InventorySlot extends ItemEntity {
+
+	public InventorySlot(String name, String path, boolean inInventory) {
+		super(name, path, true);
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -1,0 +1,7 @@
+1413687583099	Rename type 'Items'
+1413688409968	Encapsulate field 'inInventory'
+1413689546080	Encapsulate field 'stack'
+1413690651900	Encapsulate field 'upgradeLevel'
+1413691656257	Encapsulate field 'action'
+1413691789899	Encapsulate field 'item'
+1413691992925	Encapsulate field 'armor'

@@ -1,0 +1,24 @@
+package com;
+
+import javax.swing.Action;
+
+public class InventorySlot {
+	private ItemEntity item;
+	private int stack;
+	public InventorySlot(ItemEntity item) {
+		this.setItem(item);
+	}
+	public int getStack() {
+		return stack;
+	}
+	public void setStack(int stack) {
+		this.stack = stack;
+	}
+	public ItemEntity getItem() {
+		return item;
+	}
+	public void setItem(ItemEntity item) {
+		this.item = item;
+	}
+
+}

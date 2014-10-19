@@ -1,0 +1,17 @@
+package com;
+
+import javax.swing.Action;
+
+public interface Item {
+	
+	public void pickItem(ItemEntity item,Inventory inventory);
+	
+	public EntityLabel[][] dropItem(ItemEntity item,Player player,EntityLabel[][] items,EntityLabel playerLabel);
+	
+	public void useItem(ItemEntity item);
+	
+	public void addActions();
+
+
+	
+}

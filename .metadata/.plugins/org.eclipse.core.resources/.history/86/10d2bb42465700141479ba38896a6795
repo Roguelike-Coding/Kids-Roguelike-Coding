@@ -1,0 +1,8 @@
+package com;
+
+public class ArmorSlot extends InventorySlot {
+
+	public ArmorSlot(String name, String path, boolean inInventory) {
+		// TODO Auto-generated constructor stub
+	}
+}

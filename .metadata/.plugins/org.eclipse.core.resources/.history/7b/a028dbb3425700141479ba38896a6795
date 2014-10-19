@@ -1,0 +1,10 @@
+package com;
+
+public class Armor extends ItemEntity implements (EquipableItem | UpgradableItem)  {
+
+	public Armor(String name, String path, boolean inInventory) {
+		super(name, path, inInventory);
+		// TODO Auto-generated constructor stub
+	}
+
+}

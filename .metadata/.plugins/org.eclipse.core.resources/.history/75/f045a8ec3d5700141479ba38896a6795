@@ -1,0 +1,31 @@
+package com;
+
+import java.awt.image.BufferedImage;
+
+
+public class ItemEntity extends Entity implements Item {
+
+	public ItemEntity(String name,String path){
+		super();
+		this.setName(name);
+		this.setFrames(this.afterException(Interpreter.class.getResource(path)));
+	}
+
+	@Override
+	public void pickItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void useItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+}

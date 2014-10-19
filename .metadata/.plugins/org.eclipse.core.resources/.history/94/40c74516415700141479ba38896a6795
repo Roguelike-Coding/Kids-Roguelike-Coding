@@ -1,0 +1,5 @@
+package com;
+
+public class Inventory {
+	private InventorySlot[][]=new InventorySlot[5][5];
+}

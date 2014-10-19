@@ -1,0 +1,46 @@
+package com;
+
+import java.awt.image.BufferedImage;
+
+
+public class ItemEntity extends Entity implements Item {
+	private boolean inInventory;
+	public ItemEntity(String name,String path,boolean inInventory){
+		super();
+		this.setName(name);
+		this.setFrames(this.afterException(Interpreter.class.getResource(path)));
+		this.setInInventory(inInventory);
+	}
+
+	@Override
+	public void pickItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dropItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void useItem(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isInInventory() {
+		return inInventory;
+	}
+
+	public void setInInventory(boolean inInventory) {
+		this.inInventory = inInventory;
+	}
+
+	@Override
+	public void addActions() {
+		// TODO Auto-generated method stub
+		
+	}
+}
