@@ -54,6 +54,7 @@ public class ItemEntity extends Entity implements Item {
 		for(int i=0;i<player.inventory.slots.length;i++){
 			for(int j=0;j<player.inventory.slots[0].length;j++){
 				if(!found)
+					if(player.inventory.slots[i][j]!=null)
 				if(player.inventory.slots[i][j].getItem().equals(item)){
 					if(player.inventory.slots[i][j].getStack()==1){
 						player.inventory.slots[i][j]=null;
@@ -70,6 +71,20 @@ public class ItemEntity extends Entity implements Item {
 								}
 							}
 						}
+					}
+					else{
+						player.inventory.slots[i][j].setStack(player.inventory.slots[i][j].getStack()-1);
+						found=true;
+						for(int k=0;k<items.length;k++){
+							for(int l=0;l<items[0].length;l++){
+								int x=playerLabel.getX();
+								int y=playerLabel.getY();
+								if(d>=(Math.sqrt(Math.pow(x-items[k][l].getX(),2)+Math.pow(y-items[k][l].getY(),2)))){
+									d=(int) Math.sqrt(Math.pow(x-items[k][l].getX(),2)+Math.pow(y-items[k][l].getY(),2));
+									a=k;
+									b=l;
+									System.out.println(a+" "+b);
+								}}}
 					}
 				}
 			}

@@ -1,6 +1,7 @@
 package com;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ public class TileLabel extends JComponent {
 	 * 
 	 * @param bufferedImage
 	 * @param ifTile
+	 * @throws Exception 
 	 */
 	public TileLabel(BufferedImage[] bufferedImage,boolean ifTile){
 		
