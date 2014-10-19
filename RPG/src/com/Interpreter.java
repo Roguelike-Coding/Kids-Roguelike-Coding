@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -21,7 +22,7 @@ public class Interpreter implements Runnable{
 	/**
 	 * 
 	 */
-	Player player=new Player();
+	
 	JLabel left=new JLabel();
 	JLabel right=new JLabel();
 	boolean W=false;
@@ -35,6 +36,8 @@ public class Interpreter implements Runnable{
 	private static boolean translated=false;
 	public JLayeredPane pane;
 	Constants constant = new Constants();
+	Player player=constant.AUX;
+	EntityLabel playerLabel=new EntityLabel(player);
 	public class gifLoop implements Runnable{
 
 		@Override
@@ -77,58 +80,122 @@ public class Interpreter implements Runnable{
 			int cy=tiles[0][tiles[0].length-2].getBackLabel().getY()+32;
 			int dx=tiles[0][0].getBackLabel().getX()+63;
 			int dy=tiles[0][0].getBackLabel().getY()+32;
-			int tx=troops[2][2].getX()+24;
-			int ty=troops[2][2].getY()-8;
+			int tx=playerLabel.getX()+24;
+			int ty=playerLabel.getY()-8;
 			if(W){
 				if(!(Integer.signum( (bx-ax)*(ty-ay) - (by-ay)*(tx-ax) )==-1||Integer.signum( (cx-bx)*(ty-by) - (cy-by)*(tx-bx) )==-1))
-				troops[2][2].setLocation(troops[2][2].getX(), troops[2][2].getY()-1);
+				playerLabel.setLocation(playerLabel.getX(), playerLabel.getY()-1);
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
-							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+						if(playerLabel.getX()>tiles[i][j].getTileLabel().getX()&&playerLabel.getX()<tiles[i][j].getTileLabel().getX()+137&&playerLabel.getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&playerLabel.getY()+64<tiles[i][j].getTileLabel().getY()+64){
+							pane.setLayer(playerLabel, 0, map.position[i][j]);
 						}
 					}
 				}
 			}
 			if(D){
 				if(!(Integer.signum( (cx-bx)*(ty-by) - (cy-by)*(tx-bx) )==-1||Integer.signum( (dx-cx)*(ty-cy) - (dy-cy)*(tx-cx) )==-1))
-				troops[2][2].setLocation(troops[2][2].getX()+2, troops[2][2].getY());
+				playerLabel.setLocation(playerLabel.getX()+2, playerLabel.getY());
 				
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
-							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+						if(playerLabel.getX()>tiles[i][j].getTileLabel().getX()&&playerLabel.getX()<tiles[i][j].getTileLabel().getX()+137&&playerLabel.getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&playerLabel.getY()+64<tiles[i][j].getTileLabel().getY()+64){
+							pane.setLayer(playerLabel, 0, map.position[i][j]);
 						}
 					}
 				}
 			}
 			if(S){
 				if(!(Integer.signum( (dx-cx)*(ty-cy) - (dy-cy)*(tx-cx) )==-1||Integer.signum( (ax-dx)*(ty-dy) - (ay-dy)*(tx-dx) )==-1))
-				troops[2][2].setLocation(troops[2][2].getX(), troops[2][2].getY()+1);
+				playerLabel.setLocation(playerLabel.getX(), playerLabel.getY()+1);
 				
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
-							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+						if(playerLabel.getX()>tiles[i][j].getTileLabel().getX()&&playerLabel.getX()<tiles[i][j].getTileLabel().getX()+137&&playerLabel.getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&playerLabel.getY()+64<tiles[i][j].getTileLabel().getY()+64){
+							pane.setLayer(playerLabel, 0, map.position[i][j]);
 
 						}
 					}
 				}
 			}
 			if(A){
-				//troops[2][2]=EntityMoveToolkit.moveLeft(map, troops[2][2], pane, tiles);
+				//playerLabel=EntityMoveToolkit.moveLeft(map, playerLabel, pane, tiles);
 				if(!(Integer.signum( (ax-dx)*(ty-dy) - (ay-dy)*(tx-dx) )==-1||Integer.signum( (bx-ax)*(ty-ay) - (by-ay)*(tx-ax) )==-1))
-				troops[2][2].setLocation(troops[2][2].getX()-2, troops[2][2].getY());
+				playerLabel.setLocation(playerLabel.getX()-2, playerLabel.getY());
 			
 				for(int i=0;i<map.position.length;i++){
 					for(int j=0;j<map.position[0].length;j++){
-						if(troops[2][2].getX()>tiles[i][j].getTileLabel().getX()&&troops[2][2].getX()<tiles[i][j].getTileLabel().getX()+137&&troops[2][2].getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&troops[2][2].getY()+64<tiles[i][j].getTileLabel().getY()+64){
-							pane.setLayer(troops[2][2], 0, map.position[i][j]);
+						if(playerLabel.getX()>tiles[i][j].getTileLabel().getX()&&playerLabel.getX()<tiles[i][j].getTileLabel().getX()+137&&playerLabel.getY()+64>tiles[i][j].getTileLabel().getY()+63-32&&playerLabel.getY()+64<tiles[i][j].getTileLabel().getY()+64){
+							pane.setLayer(playerLabel, 0, map.position[i][j]);
 						}
 					}
 				}
 			}
 		}}
+	}
+	public Map genrateMap(){
+		int x=randInt(5,9)+1;
+		int y=randInt(5,9)+1;
+		Map map = new Map(x, y);
+		boolean door=false;
+		for(int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				map.terrain[i][j]=constant.T_FLOOR_COBBLE.getThis();
+				if(i==x-1||j==y-1){
+					map.terrain[i][j]=constant.T_WALL1.getThis();
+					if(randInt(4,8)>=8){
+						door=true;
+						map.terrain[i][j]=constant.T_DOOR.getThis();
+					}
+				}
+			}
+		}
+		if(!door){
+			map.terrain[x-1][4]=constant.T_DOOR.getThis();
+		}
+		for(int i=0;i<randInt(4,12);i++){
+			int k=randInt(0,x-2);
+			int l=randInt(0,y-2);
+			map.terrain[k][l]=constant.T_FLOOR_MOSS.getThis();
+		}
+		int w= randInt(0,10);
+		int k=randInt(0,x-2);
+		int l=randInt(0,y-2);
+		for(int i=0;i<w;i++){
+			map.terrain[k][l]=constant.T_FLOOR_WATER.getThis();
+			int a= randInt(1,4);
+			if(a==1){
+				k++;
+				if(k>x-2)
+				k=x-2;
+			}
+			if(a==2){
+				k--;
+				if(k<0)
+				k=0;
+			}
+			if(a==3){
+				l++;
+				if(l>y-2)
+				l=y-2;
+			}
+			if(a==4){
+				l--;
+				if(l<0)
+				l=0;
+			}
+		}
+		
+		
+		return map;
+		
+	}
+	public static int randInt(int min, int max) {
+	    
+	    Random rand = new Random();
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
 	}
 	public IsoTile[][] translateMapTerrain(){
 		
@@ -140,7 +207,7 @@ public class Interpreter implements Runnable{
 				pane.remove(tiles[i][j].getFrontLabel());
 				pane.remove(tiles[i][j].getTileLabel());
 				}
-				output[i][j]=new IsoTile(map.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i),false);
+				output[i][j]=new IsoTile(map.terrain[i][j].renderType,new Point(400-124/2*i+124/2*j,400-62/2*j-62/2*i));
 			}
 		}
 		return output;
@@ -185,8 +252,9 @@ public EntityLabel[][] translateMapItems(){
 	public void reCalculate(){
 		for(int i=0;i<map.getTerrain().length;i++){
 			for(int j=0;j<map.getTerrain()[0].length;j++){
+			
 				if(map.getTerrain()[i][j].getRenderType().isConnected()){
-					RenderType auxiliar = map.getTerrain()[i][j].getRenderType().getThis();
+					RenderType auxiliar = map.getTerrain()[i][j].renderTypeBase.getThis();
 					if(map.getTerrain()[i][j].getRenderType().getLayer()==1){
 						drawConected(i,j,map.getTerrain()[i][j].renderType.getThis().getConnections());
 					}
@@ -214,6 +282,7 @@ public EntityLabel[][] translateMapItems(){
 		tiles=translateMapTerrain();
 		troops=translateMapTroops();
 		items=translateMapItems();
+		playerLabel.setBounds(500+36+3-127/2*3+127/2*3,500+45-63/2*3-63/2*3, 64, 64);
 		int x=0;
 		for(int i=0;i<tiles.length;i++){
 			for(int j=0;j<tiles[0].length;j++){
@@ -230,10 +299,10 @@ public EntityLabel[][] translateMapItems(){
 				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
-				items[i][j].setLocation(400+36+j-127/2*i+127/2*j,400+45-63/2*j-63/2*i);
-				troops[i][j].setLocation(400+36+j-126/2*i+126/2*j,400+45-63/2*j-63/2*i);
+				items[i][j].setLocation(500+36+j-127/2*i+127/2*j,500+45-63/2*j-63/2*i);
+				troops[i][j].setLocation(500+36+j-126/2*i+126/2*j,500+45-63/2*j-63/2*i);
 				tiles[i][j].setAllVisible(true);
-				tiles[i][j].setAllBounds(400-126/2*i+126/2*j,400-63/2*j-63/2*i);	
+				tiles[i][j].setAllBounds(500-126/2*i+126/2*j,500-63/2*j-63/2*i);	
 				
 			}
 		}
@@ -248,6 +317,9 @@ public EntityLabel[][] translateMapItems(){
 	}
 	public void showMap(){
 		int x=0;
+		pane.add(playerLabel,0,x);
+		
+		playerLabel.setVisible(true);
 		map.position=new int[map.terrain.length][map.terrain[0].length];
 		for(int i=0;i<tiles.length;i++){
 			for(int j=0;j<tiles[0].length;j++){
@@ -266,10 +338,10 @@ public EntityLabel[][] translateMapItems(){
 				pane.add(tiles[i][j].getBackLabel(),0,x);
 				
 				x++;
-				items[i][j].setLocation(400+36+j-127/2*i+127/2*j,400+45-63/2*j-63/2*i);
-				troops[i][j].setLocation(400+36+j-127/2*i+127/2*j,400+45-63/2*j-63/2*i);
+				items[i][j].setLocation(500+36+j-127/2*i+127/2*j,500+45-63/2*j-63/2*i);
+				troops[i][j].setLocation(500+36+j-127/2*i+127/2*j,500+45-63/2*j-63/2*i);
 				tiles[i][j].setAllVisible(true);
-				tiles[i][j].setAllBounds(400-127/2*i+127/2*j,400-63/2*j-63/2*i);	
+				tiles[i][j].setAllBounds(500-127/2*i+127/2*j,500-63/2*j-63/2*i);	
 			}
 		}
 		left.setLocation(tiles[map.terrain.length-1][0].getTileLabel().getX()+64-100,tiles[map.terrain.length-1][0].getTileLabel().getY()-63);
@@ -509,23 +581,24 @@ public EntityLabel[][] translateMapItems(){
 		
 		frame.setTitle("dsdasfsdf");
 		frame.setVisible(true);
-		frame.setSize(1000,800);
+		frame.setSize(1300,1200);
 		pane.setVisible(true);
 		pane.setSize(100001,100000);
 		pane.setLocation(0,0);
 		pane.setOpaque(true);
 		pane.setBackground(Color.black);
+		/*
 		map=new Map(new Terrain[][]{
-				{constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WALL4.getThis()},
-				{constant.T_FOREST_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_WALL1.getThis()},
-				{constant.T_MOUNTAINS_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_WALL2.getThis()},
-				{constant.T_HOUSE_PLAINS_BLUE.getThis(),constant.T_WATER_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_PLAINS.getThis(),constant.T_BEACH.getThis(),constant.T_WALL1.getThis()},
-				{constant.T_WALL1.getThis(),constant.T_WALL3.getThis(),constant.T_WALL1.getThis(),constant.T_WALL2.getThis(),constant.T_WALL1.getThis(),constant.T_WALL1.getThis()}
+				{constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_MOSS.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_WALL4.getThis()},
+				{constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_MOSS.getThis(),constant.T_FLOOR_WATER.getThis(),constant.T_FLOOR_WATER.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_DOOR.getThis()},
+				{constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_WATER.getThis(),constant.T_FLOOR_WATER.getThis(),constant.T_FLOOR_WATER.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_WALL2.getThis()},
+				{constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_WATER.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_FLOOR_COBBLE.getThis(),constant.T_WALL1.getThis()},
+				{constant.T_WALL1.getThis(),constant.T_WALL3.getThis(),constant.T_DOOR.getThis(),constant.T_WALL2.getThis(),constant.T_WALL1.getThis(),constant.T_WALL1.getThis()}
 		},
 		new Entity[][]{
 				{null,null,null,null,null,null},
 				{null,null,null,null,null,null},
-				{null,null,constant.AUX,null,null,null},
+				{null,null,null,null,null,null},
 				{null,null,null,null,null,null},
 				{null,null,null,null,null,null}
 		},
@@ -537,7 +610,8 @@ public EntityLabel[][] translateMapItems(){
 				{null,null,null,null,null,null}
 		}
 		);
-
+*/
+		map=genrateMap();
 		pane.add(left,2,0);
 		pane.add(right,2,0);
 		left.setSize(100, 200);
@@ -557,7 +631,6 @@ public EntityLabel[][] translateMapItems(){
 		gameLoop glp1 = this.new gameLoop();
 		gifThread1 = new Thread(glp1);
 		gifThread1.start();
-		map.items[3][3].useItem(null);
 		frame.addKeyListener(new KeyListener(){
 
 			@Override
@@ -575,8 +648,8 @@ public EntityLabel[][] translateMapItems(){
 					A=true;
 				}
 				if(arg0.getKeyCode()==KeyEvent.VK_E){
-					int x=troops[2][2].getX()+32;
-					int y=troops[2][2].getY()+32;
+					int x=playerLabel.getX()+32;
+					int y=playerLabel.getY()+32;
 					boolean found=false;
 					for(int i=0;i<items.length;i++){
 						for(int j=0;j<items[0].length;j++){
@@ -594,7 +667,7 @@ public EntityLabel[][] translateMapItems(){
 				}
 				if(arg0.getKeyCode()==KeyEvent.VK_Q){
 					ItemEntity item = player.inventory.slots[0][0].getItem();
-					Point point=player.inventory.slots[0][0].getItem().dropItem(player.inventory.slots[0][0].getItem(), player, items, troops[2][2]);
+					Point point=player.inventory.slots[0][0].getItem().dropItem(player.inventory.slots[0][0].getItem(), player, items, playerLabel);
 					System.out.println(point);
 					map.items[point.x][point.y]=item;
 					reRender();
@@ -634,7 +707,7 @@ public EntityLabel[][] translateMapItems(){
 
 			public void actionPerformed(ActionEvent e)
 		    {
-		    	troops[2][2]=EntityMoveToolkit.moveUp(troops[2][2], pane);
+		    	playerLabel=EntityMoveToolkit.moveUp(playerLabel, pane);
 		    	System.out.println("W");
 		    }
 		};
@@ -649,7 +722,7 @@ public EntityLabel[][] translateMapItems(){
 
 			public void actionPerformed(ActionEvent e)
 		    {
-		    	troops[2][2]=EntityMoveToolkit.moveRight(troops[2][2], pane);
+		    	playerLabel=EntityMoveToolkit.moveRight(playerLabel, pane);
 		    	System.out.println("D");
 		    }
 		};

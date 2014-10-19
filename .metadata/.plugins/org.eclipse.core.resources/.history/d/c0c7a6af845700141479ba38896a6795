@@ -1,0 +1,28 @@
+package com;
+
+import java.util.Random;
+
+public class Generator {
+	Constants constant =  new Constants();
+	public Map genrateMap(){
+		int x=randInt(5,9)+1;
+		int y=randInt(5,9)+1;
+		Map map = new Map(x, y);
+		for(int i=0;i<x;i++){
+			for(int j=0;j<y;j++){
+				map.terrain[i][j]=
+			}
+		}
+		
+		
+		return null;
+		
+	}
+	public static int randInt(int min, int max) {
+	    
+	    Random rand = new Random();
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+	}
+}

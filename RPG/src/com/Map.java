@@ -33,8 +33,8 @@ public class Map {
 	public Map(int x,int y){
 		setTerrain(new Terrain[x][y]);
 		setTroops(new Entity[x][y]);
+		setItems(new ItemEntity[x][y]);
 	}
-
 
 	
 	public Map(Terrain[][] terrain,Entity[][] troops,ItemEntity[][] items){

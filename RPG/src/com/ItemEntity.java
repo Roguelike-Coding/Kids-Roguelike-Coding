@@ -60,12 +60,13 @@ public class ItemEntity extends Entity implements Item {
 						found=true;
 						for(int k=0;k<items.length;k++){
 							for(int l=0;l<items[0].length;l++){
-								int x=playerLabel.getX()+32;
-								int y=playerLabel.getY()+32;
-								if(d>((x-items[k][l].getX()-32)^2+(y-items[k][l].getY()-32)^2)){
-									d=(x-items[k][l].getX()-32)^2+(y-items[k][l].getY()-32)^2;
+								int x=playerLabel.getX();
+								int y=playerLabel.getY();
+								if(d>=(Math.sqrt(Math.pow(x-items[k][l].getX(),2)+Math.pow(y-items[k][l].getY(),2)))){
+									d=(int) Math.sqrt(Math.pow(x-items[k][l].getX(),2)+Math.pow(y-items[k][l].getY(),2));
 									a=k;
 									b=l;
+									System.out.println(a+" "+b);
 								}
 							}
 						}

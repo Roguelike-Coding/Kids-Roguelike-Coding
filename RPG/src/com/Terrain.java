@@ -2,11 +2,13 @@ package com;
 
 public class Terrain {
 	public RenderType renderType;
+	public RenderType renderTypeBase;
 	private String name;
 	private boolean solid;
 	public Terrain(RenderType renderType,String name){
 		this.setName(name);
 		this.setRenderType(renderType);
+		renderTypeBase=renderType.getThis();
 	}
 
 	public Terrain getThis(){

@@ -18,9 +18,9 @@ public class IsoTile{
 	 * @param renderer This is the renderer
 	 * @param p This is the initial point where the tile will stay
 	 */
-	public IsoTile(RenderType renderer,Point p,boolean rotate){
+	public IsoTile(RenderType renderer,Point p){
 		this.renderer=renderer;
-		tileLabel=new TileLabel(renderer.getTileLayer(),true,rotate);	
+		tileLabel=new TileLabel(renderer.getTileLayer(),true);	
 		backLabel=new TileLabel(renderer.getBackLayer(),renderer.isBackTile());
 		frontLabel=new TileLabel(renderer.getFrontLayer(),renderer.isFrontTile());
 		tileLabel.setBounds(p.x,p.y+63,127,63);
